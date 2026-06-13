@@ -8,10 +8,11 @@ from models.user_model import UserDB
 from routers.chatbot import chatcontent_router as chatbot_router
 from routers.genrel_chatbot import router as genrel_chatbot
 from routers.search_resource import router as search_router
+from routers.roadmap import router as roadmap_router
 app=FastAPI()
 UserDB.metadata.create_all(bind=engine)
 
-router_list=[question_router,auth_router,otp_router,chatbot_router,genrel_chatbot,search_router]
+router_list=[question_router,auth_router,otp_router,chatbot_router,genrel_chatbot,search_router,roadmap_router]
 
 for router in router_list:
     app.include_router(router)
