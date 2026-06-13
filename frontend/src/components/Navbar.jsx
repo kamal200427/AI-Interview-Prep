@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate} from "react-router-dom";
 import { Bell, Search, Zap, User } from "lucide-react";
-
+import logo from "../assets/logo.png"
 // const AVATAR =
 //   "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces";
 
@@ -21,11 +21,13 @@ const handleGetStarted = () => {
     <header className="nav">
       <div className="container nav-inner">
         <Link to="/" className="brand">
-          <span className="brand-mark">
-            <Zap size={17} />
-          </span>
-          LearnPro
-        </Link>
+  <img
+    src={logo}
+    alt="SpeechX"
+    className="brand-logo"
+  />
+  <span className="brand-text">SpeechX</span>
+</Link>
         {!landingPage && (
         <nav className="nav-links">
           <NavLink to="/courses">Courses</NavLink>

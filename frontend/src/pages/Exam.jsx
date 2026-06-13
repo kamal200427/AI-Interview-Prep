@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Flag, ChevronLeft, ChevronRight } from "lucide-react";
 import { getQuestions } from "../services/ExamApi";
 import FloatingAIBot from "../components/FloatingAIBot";
-
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 const SUBJECTS = [
   "DSA",
   "DBMS",
@@ -24,6 +25,7 @@ const SUBJECTS = [
   "Cloud Computing",
   "System Design",
   "Software Engineering",
+  "Aptitude",
    
 ];
 
@@ -159,7 +161,9 @@ const cells = Array.from(
   })
 );
   return (
+    
     <>
+    <Navbar authed />
     <div className="subject-wrapper">
     <div className="subject-selector">
   <label>Select Subject</label>
@@ -340,6 +344,7 @@ const cells = Array.from(
       </main>
       <FloatingAIBot subject={subject} />
     </div>
+    <Footer/>
     </>
   );
 }

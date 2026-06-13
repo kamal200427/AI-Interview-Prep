@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import FloatingAIBot from "../components/FloatingAIBot.jsx";
 import Sidebar from "../components/Sidebar.jsx";
 import { Check, Code2, Lock, Server, Gauge, Flag, Users } from "lucide-react";
-
+import { getRoadmap } from "../services/RoadmapApi";
 const nodes = [
   { state: "done", icon: <Check size={26} />, t: "HTML Basics", s: "Completed" },
   { state: "active", icon: <Code2 size={26} />, t: "JavaScript Fundamentals", s: "In Progress · 66%" },
@@ -28,6 +29,54 @@ const info = [
 ];
 
 export default function Roadmaps() {
+  const [professions, setProfessions] = useState([]);
+
+const [selectedProfession,setSelectedProfession] = useState("");
+
+const [nodes, setNodes] =useState([]);
+
+const loadRoadmap = async () => {
+  try {
+    const user = JSON.parse(
+  localStorage.getItem("user")
+);
+    console.log(user);
+    
+    const email=user.email;
+    const data = await getRoadmap(email);
+
+    setNodes(data.nodes);
+
+    setSelectedProfession(
+      data.profession
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+useEffect(() => {
+
+  loadRoadmap();
+
+}, []);
+
+const handleProfessionChange =
+async (e) => {
+
+  const profession =
+    e.target.value;
+
+  setSelectedProfession(
+    profession
+  );
+
+  await saveProfession(
+    email,
+    profession
+  );
+
+  loadRoadmap();
+};
   return (
     <div className="app-shell">
       <Sidebar />
@@ -38,7 +87,27 @@ export default function Roadmaps() {
           your progress, unlock new tiers, and build a portfolio-ready skillset from
           scratch.
         </p>
+        <div className="profession-box">
 
+  <label>
+    Career Path
+  </label>
+
+  <select
+    value={selectedProfession}
+    onChange={handleProfessionChange}
+  >
+    {professions.map((job) => (
+      <option
+        key={job}
+        value={job}
+      >
+        {job}
+      </option>
+    ))}
+  </select>
+
+</div>
         <div className="roadmap">
           {nodes.map((n, i) => (
             <div key={n.t} style={{ display: "contents" }}>

@@ -5,14 +5,19 @@ from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+ 
+BACKEND_DIR = Path(__file__).resolve().parents[2]
 
+SUBJECT_PDF_DIR = BACKEND_DIR / "subject pdf"
+GENERAL_PDF_DIR = BACKEND_DIR / "general pdf"
+VECTOR_DB_DIR = BACKEND_DIR / "vectordb"
+GENERAL_DB_DIR = BACKEND_DIR / "genrel_db"
 
 embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-# 
-# C:\study platform\AI-Interview-Prep\backend\subject pdf
+
 def _load_subject_documents():
     document = DirectoryLoader(
-        path=r"D:\AI Interview Preparation\backend\subject pdf",
+        path=str(SUBJECT_PDF_DIR),
         glob="*.pdf",
         loader_cls=PyPDFLoader,
     )
@@ -25,22 +30,22 @@ def _load_subject_documents():
         doc.metadata["subject"] = subject
 
     return documents
-# C:\study platform\AI-Interview-Prep\backend\general pdf
+
 # 
 def _load_general_documents():
     document = DirectoryLoader(
-        path=r"D:\AI Interview Preparation\backend\general pdf",
+        path=str(GENERAL_PDF_DIR),
         glob="*.pdf",
         loader_cls=PyPDFLoader,
     )
 
     return document.load()
 
-# C:\study platform\AI-Interview-Prep\backend\vectordb
+ 
 @lru_cache(maxsize=1)
 def _get_subject_store():
     vector_store = Chroma(
-        persist_directory=r"D:\AI Interview Preparation\backend\vectordb",
+        persist_directory=str(VECTOR_DB_DIR),
         embedding_function=embedding_model,
     )
 
@@ -55,12 +60,12 @@ def _get_subject_store():
 
     return vector_store
 
-# C:\study platform\AI-Interview-Prep\backend\genrel_db
+# 
 
 @lru_cache(maxsize=1)
 def _get_general_store():
     genrel_store = Chroma(
-        persist_directory=r"D:\AI Interview Preparation\backend\genrel_db",
+        persist_directory=str(GENERAL_DB_DIR),
         embedding_function=embedding_model,
     )
 
