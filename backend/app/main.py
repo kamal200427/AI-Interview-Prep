@@ -5,7 +5,7 @@ from routers.auth_route import auth_router
 from routers.otp_route import otp_router
 from database.database import engine
 from models.user_model import UserDB
-from routers.chatbot import chatcontent_router as chatbot_router
+from routers.chatbot import router as chatbot_router
 from routers.genrel_chatbot import router as genrel_chatbot
 from routers.search_resource import router as search_router
 from routers.roadmap import router as roadmap_router
@@ -20,7 +20,8 @@ for router in router_list:
 # Allow React to access FastAPI
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # React URL
+    allow_origins=["http://localhost:5173",
+                   "http://127.0.0.1:5173"],  # React URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

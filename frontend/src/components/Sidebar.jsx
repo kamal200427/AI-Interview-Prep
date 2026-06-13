@@ -29,7 +29,7 @@ export default function Sidebar() {
           <BookOpen size={17} /> Modules
         </NavLink>
         <NavLink to="/exam">
-          <ClipboardList size={17} /> Assignments
+          <ClipboardList size={17} /> Assignments/Moodle Test
         </NavLink>
         <NavLink to="/library">
           <FolderOpen size={17} /> Resources

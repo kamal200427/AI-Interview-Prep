@@ -8,11 +8,11 @@ from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
 
 embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-
+# 
+# C:\study platform\AI-Interview-Prep\backend\subject pdf
 def _load_subject_documents():
     document = DirectoryLoader(
-        path=r"C:\study platform\AI-Interview-Prep\backend\subject pdf",
+        path=r"D:\AI Interview Preparation\backend\subject pdf",
         glob="*.pdf",
         loader_cls=PyPDFLoader,
     )
@@ -25,22 +25,22 @@ def _load_subject_documents():
         doc.metadata["subject"] = subject
 
     return documents
-
-
+# C:\study platform\AI-Interview-Prep\backend\general pdf
+# 
 def _load_general_documents():
     document = DirectoryLoader(
-        path=r"C:\study platform\AI-Interview-Prep\backend\general pdf",
+        path=r"D:\AI Interview Preparation\backend\general pdf",
         glob="*.pdf",
         loader_cls=PyPDFLoader,
     )
 
     return document.load()
 
-
+# C:\study platform\AI-Interview-Prep\backend\vectordb
 @lru_cache(maxsize=1)
 def _get_subject_store():
     vector_store = Chroma(
-        persist_directory=r"C:\study platform\AI-Interview-Prep\backend\vectordb",
+        persist_directory=r"D:\AI Interview Preparation\backend\vectordb",
         embedding_function=embedding_model,
     )
 
@@ -55,11 +55,12 @@ def _get_subject_store():
 
     return vector_store
 
+# C:\study platform\AI-Interview-Prep\backend\genrel_db
 
 @lru_cache(maxsize=1)
 def _get_general_store():
     genrel_store = Chroma(
-        persist_directory=r"C:\study platform\AI-Interview-Prep\backend\genrel_db",
+        persist_directory=r"D:\AI Interview Preparation\backend\genrel_db",
         embedding_function=embedding_model,
     )
 

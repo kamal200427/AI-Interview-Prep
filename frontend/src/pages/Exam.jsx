@@ -338,7 +338,7 @@ const cells = Array.from(
           </div>
         </div>
       </main>
-      <FloatingAIBot />
+      <FloatingAIBot subject={subject} />
     </div>
     </>
   );

@@ -11,31 +11,27 @@ POST /subject/{subject}
 --------------------------------------------------
 */
 
-export const askSubjectQuestion = async (
-  subject,
-  query
-) => {
-  try {
-    const response = await fetch(
-      `${API_URL}/subject/${subject}?query=${encodeURIComponent(
-        query
-      )}`,
-      {
-        method: "POST",
-      }
-    );
+ export const askSubjectQuestion =
+async (subject, query) => {
 
-    if (!response.ok) {
-      throw new Error("Failed to get answer");
+  const response = await fetch(
+    `${API_URL}/content/${subject}`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+        query: query,
+      }),
     }
+  );
 
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  return response.json();
 };
-
 /*
 --------------------------------------------------
 2. Project / Platform Assistant
@@ -48,19 +44,18 @@ POST /content/{subject}
 */
 
 export const askPlatformQuestion = async (
-  subject,
   question
 ) => {
   try {
     const response = await fetch(
-      `${API_URL}/content/${subject}`,
+      `${API_URL}/overview/chatbot`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          question: question,
+          query: question,
         }),
       }
     );

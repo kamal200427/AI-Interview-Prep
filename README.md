@@ -326,7 +326,9 @@ This project demonstrates:
 
 Developed by:
 
-Kamal Barman
+1.Kamal Barman
+2.Sourav Das
+3.Ankan Bera 
 
 B.Tech CSE (AIML)
 
