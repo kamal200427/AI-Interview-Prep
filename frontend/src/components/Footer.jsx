@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-inner">
         <div className="copy">
-          <strong style={{ color: "var(--text)" }}>LearnPro</strong> · © 2025 LearnPro
+          <strong style={{ color: "var(--text)" }}>LearnPro</strong> · © 2026 LearnPro
           Technical Education. All rights reserved.
         </div>
         <nav className="links">

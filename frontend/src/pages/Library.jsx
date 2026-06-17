@@ -1,143 +1,342 @@
+import { useState } from "react";
+
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
+import FloatingAIBot from "../components/FloatingAIBot.jsx";
+import YoutubeResourceCard from "../components/YoutubeResourceCard";
+import PdfResourceCard from "../components/PdfResourceCard";
 import {
   Search,
   SlidersHorizontal,
   FileText,
-  BookOpen,
-  Video,
   Download,
-  Clock,
-  Save,
   ChevronLeft,
   ChevronRight,
+  PlayCircle,
 } from "lucide-react";
-import FloatingAIBot from "../components/FloatingAIBot.jsx";
 
-const THUMB1 =
-  "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=240&fit=crop";
-const THUMB2 =
-  "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=400&h=240&fit=crop";
-const THUMB3 =
-  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=240&fit=crop";
-
-const resources = [
-  { tag: "PDF", title: "Clean Code Cheatsheet", author: "Robert C. Martin", meta: "5 mins", cta: "Download PDF", thumb: THUMB1, icon: <FileText size={20} /> },
-  { tag: "E-BOOK", title: "Python Algorithms E-Book", author: "Magnus Lie Hetland", meta: "420 pgs", cta: "Download EPUB", thumb: THUMB2, icon: <BookOpen size={20} /> },
-  { tag: "VIDEO", title: "React Hooks Deep Dive", author: "Dan Abramov", meta: "45 mins", cta: "Save Video", thumb: THUMB3, icon: <Video size={20} /> },
-  { tag: "PDF", title: "Tailwind CSS v3 Guide", author: "Adam Wathan", meta: "12 pgs", cta: "Download PDF", icon: <FileText size={20} /> },
-  { tag: "PDF", title: "Cybersecurity Essentials", author: "Kevin Mitnick", meta: "8 pgs", cta: "Download PDF", icon: <FileText size={20} /> },
-  { tag: "PDF", title: "SQL Optimization Manual", author: "LearnPro Education", meta: "15 mins", cta: "Download PDF", icon: <FileText size={20} /> },
-];
+import { searchResources } from "../services/ResourceApi.jsx";
 
 const filters = {
-  Subject: ["Coding", "Design", "Business"],
-  "Media Type": ["PDF Guides", "Video Lectures", "E-Books"],
-  Difficulty: ["Beginner", "Intermediate", "Advanced"],
+  Subject: [
+    "DBMS",
+    "DSA",
+    "OOPS",
+    "OS",
+    "CN",
+    "JAVA",
+    "AIML",
+  ],
+
+  Type: [
+    "YouTube",
+    "PDF",
+  ],
 };
 
 export default function Library() {
+  const [query, setQuery] = useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [youtubeResults, setYoutubeResults] =
+    useState([]);
+
+  const [pdfResults, setPdfResults] =
+    useState([]);
+
+  const [selectedType, setSelectedType] =
+    useState("all");
+
+  const handleSearch = async (
+    customQuery = ""
+  ) => {
+    const searchText =
+      customQuery || query;
+
+    if (!searchText.trim()) return;
+
+    setLoading(true);
+
+    try {
+      const data =
+        await searchResources(searchText);
+        console.log(data.pdfs);
+        
+
+      setYoutubeResults(
+        data.youtube || []
+      );
+
+      setPdfResults(
+        data.pdfs || []
+      );
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  };
+
+  const visibleYoutube =
+    selectedType === "pdf"
+      ? []
+      : youtubeResults;
+
+  const visiblePdf =
+    selectedType === "youtube"
+      ? []
+      : pdfResults;
+
   return (
     <div className="page">
       <Navbar authed />
-      <main className="page-body container" style={{ paddingTop: 36, paddingBottom: 56 }}>
-        <h1 style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.02em" }}>
+
+      <main
+        className="page-body container"
+        style={{
+          paddingTop: 36,
+          paddingBottom: 60,
+        }}
+      >
+        {/* HEADER */}
+
+        <h1
+          style={{
+            fontSize: 36,
+            fontWeight: 800,
+          }}
+        >
           Knowledge Vault
         </h1>
-        <p className="muted" style={{ maxWidth: 520, marginTop: 8 }}>
-          Access our curated repository of technical guides, industry cheat sheets, and
-          comprehensive learning resources.
+
+        <p
+          className="muted"
+          style={{
+            maxWidth: 650,
+            marginTop: 10,
+          }}
+        >
+          Access curated YouTube playlists,
+          interview preparation PDFs,
+          cheat sheets and learning
+          resources.
         </p>
 
-        <div className="lib-search">
-          <div className="search-box field" style={{ minWidth: "auto" }}>
-            <Search size={16} />
-            <input placeholder="Search for assets (e.g., 'React Hooks PDF', 'SQL Cheat Sheet')..." />
+        {/* SEARCH */}
+
+        <div className="library-search-row">
+
+          <div className="library-search-box">
+            <Search size={18} />
+
+            <input
+              value={query}
+              onChange={(e) =>
+                setQuery(e.target.value)
+              }
+              placeholder="Search DBMS Full Playlist, DSA Notes..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
           </div>
-          <button className="btn btn-primary">Search Library</button>
+
+          <button
+            className="search-btn"
+            onClick={() => handleSearch()}
+            disabled={loading}
+          >
+            {loading
+              ? "Searching..."
+              : "Search"}
+          </button>
         </div>
+
+        {/* SUBJECT CHIPS */}
 
         <div className="chips">
-          <span className="dim" style={{ fontSize: 13, fontWeight: 600 }}>
-            Popular:
-          </span>
-          <span className="chip">Python Basics</span>
-          <span className="chip">System Design</span>
-          <span className="chip">Figma Workflow</span>
+          {[
+            "DBMS",
+            "DSA",
+            "OOPS",
+            "OS",
+            "CN",
+            "JAVA",
+            "AIML",
+          ].map((subject) => (
+            <button
+              key={subject}
+              className="chip"
+              onClick={() =>
+                handleSearch(subject)
+              }
+            >
+              {subject}
+            </button>
+          ))}
         </div>
+
+        {/* MAIN LAYOUT */}
 
         <div className="lib-layout">
-          {/* Filters */}
+
+          {/* FILTERS */}
+
           <aside className="filters">
-            <h3 style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 16, fontWeight: 700 }}>
-              <SlidersHorizontal size={16} /> Filters
+            <h3>
+              <SlidersHorizontal size={18} />
+              Filters
             </h3>
-            {Object.entries(filters).map(([group, opts]) => (
-              <div key={group}>
-                <h4>{group}</h4>
-                {opts.map((o, idx) => (
-                  <label key={o} className="filter-opt">
-                    <input type="checkbox" defaultChecked={group === "Subject" && idx === 0} />
-                    {o}
-                  </label>
-                ))}
-              </div>
-            ))}
-            <button className="btn btn-outline btn-block" style={{ marginTop: 18 }}>
-              Clear All Filters
-            </button>
+
+            <div>
+              <h4>Resource Type</h4>
+
+              <label className="filter-opt">
+                <input
+                  type="radio"
+                  checked={
+                    selectedType === "all"
+                  }
+                  onChange={() =>
+                    setSelectedType("all")
+                  }
+                />
+                All
+              </label>
+
+              <label className="filter-opt">
+                <input
+                  type="radio"
+                  checked={
+                    selectedType ===
+                    "youtube"
+                  }
+                  onChange={() =>
+                    setSelectedType(
+                      "youtube"
+                    )
+                  }
+                />
+                YouTube
+              </label>
+
+              <label className="filter-opt">
+                <input
+                  type="radio"
+                  checked={
+                    selectedType ===
+                    "pdf"
+                  }
+                  onChange={() =>
+                    setSelectedType("pdf")
+                  }
+                />
+                PDF
+              </label>
+            </div>
           </aside>
 
-          {/* Results */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
-              <span className="muted" style={{ fontSize: 14 }}>
-                Showing 12 results for "Coding"
-              </span>
-              <span className="muted" style={{ fontSize: 14 }}>
-                Sort by: <strong style={{ color: "var(--text)" }}>Latest Added</strong>
-              </span>
-            </div>
+          {/* RESULTS */}
 
-            <div className="lib-grid">
-              {resources.map((r) => (
-                <article key={r.title} className="card res-card card-hover">
-                  <div className="res-thumb">
-                    {r.thumb ? <img src={r.thumb} alt={r.title} /> : r.icon}
-                    <span className="res-tag">{r.tag}</span>
-                  </div>
-                  <div className="res-body">
-                    <h4>{r.title}</h4>
-                    <div className="author">{r.author}</div>
-                    <div className="res-foot">
-                      <span className="meta">
-                        <Clock size={13} /> {r.meta}
-                      </span>
-                      <button className="btn btn-primary" style={{ padding: "8px 12px", fontSize: 12.5 }}>
-                        {r.cta === "Save Video" ? <Save size={14} /> : <Download size={14} />}
-                        {r.cta}
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+          <section className="library-results">
 
-            <div className="pagination">
-              <button>
-                <ChevronLeft size={16} />
-              </button>
-              <button className="active">1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
+            {/* LOADING */}
+
+            {loading && (
+              <div className="loading-area">
+                <div className="spinner" />
+                Searching Resources...
+              </div>
+            )}
+
+            {/* EMPTY STATE */}
+
+            {!loading &&
+              youtubeResults.length ===
+                0 &&
+              pdfResults.length === 0 && (
+                <div className="empty-library">
+                  <div className="empty-icon">
+                    📚
+                  </div>
+
+                  <h2>
+                    Search Learning
+                    Resources
+                  </h2>
+
+                  <p>
+                    Search for DBMS,
+                    DSA, OOPS, OS,
+                    CN, JAVA, AIML
+                    playlists and PDFs.
+                  </p>
+                </div>
+              )}
+
+            {/* YOUTUBE SECTION */}
+
+            {visibleYoutube.length >
+              0 && (
+              <>
+                <h2 className="resource-heading">
+                  🎥 YouTube Playlists
+                </h2>
+
+                <div className="youtube-grid">
+
+          {youtubeResults.map((video, index) => (
+
+           <YoutubeResourceCard
+         key={index}
+         title={video.title}
+      channel={video.channel_name}
+       duration={video.duration}
+       thumbnail={video.thumbnail}
+       link={video.link}
+       subject={query}
+     />
+
+      ))}
+
+      </div>
+              </>
+            )}
+
+            {/* PDF SECTION */}
+
+            {visiblePdf.length > 0 && (
+              <>
+                <h2 className="resource-heading">
+                  📄 PDF Resources
+                </h2>
+
+                <div className="pdf-grid">
+
+                {pdfResults.map((pdf, index) => (
+
+               <PdfResourceCard
+             key={index}
+           title={pdf.title}
+           link={pdf.link}
+           subject={query}
+          />
+
+        ))}
+
+      </div>
+              </>
+            )}
+          </section>
         </div>
       </main>
+
       <FloatingAIBot />
+
       <Footer />
     </div>
   );

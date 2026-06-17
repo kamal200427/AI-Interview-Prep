@@ -57,3 +57,4 @@ Thumbs.db
 huggingface_hub/
 transformers_cache/
 datasets/
+*.db
