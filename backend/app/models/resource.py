@@ -23,3 +23,23 @@ class Resource(Base):
     channel_name=Column(String,nullable=True)
 
     author=Column(String,nullable=True)
+    
+    
+class UserResource(Base):
+
+    __tablename__ = "user_resources"
+
+    id = Column(Integer, primary_key=True)
+
+    user_id = Column(Integer)
+
+    resource_id = Column(Integer)
+
+    subject = Column(String)
+
+    progress = Column(Integer, default=0)
+
+    status = Column(
+        String,
+        default="learning"
+    )
