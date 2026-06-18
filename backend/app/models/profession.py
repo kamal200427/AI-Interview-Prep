@@ -1,5 +1,7 @@
 from sqlalchemy import Column,Integer,String,ForeignKey
 from database.database import Base
+from sqlalchemy import Integer,Column,DateTime
+from sqlalchemy.sql import func
 
 class Profession(Base):
 
@@ -46,7 +48,10 @@ class RoadmapSubject(Base):
     order_no = Column(
         Integer
     )
-
+    description = Column(
+        String,
+        nullable=True
+    )
  
 
 class UserRoadmap(Base):
@@ -55,14 +60,23 @@ class UserRoadmap(Base):
 
     id = Column(
         Integer,
-        primary_key=True
+        primary_key=True,
+        index=True
     )
 
     email = Column(
         String,
-        unique=True
+        unique=True,
+        nullable=False
     )
 
     profession = Column(
-        String
+        String,
+        nullable=False
+    )
+
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now()
     )

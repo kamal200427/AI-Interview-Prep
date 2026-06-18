@@ -24,6 +24,11 @@ class Resource(Base):
 
     author=Column(String,nullable=True)
     
+    completion = Column(
+        Integer,
+        default=0
+    )
+    
     
 class UserResource(Base):
 

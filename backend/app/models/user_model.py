@@ -27,3 +27,20 @@ class UserDB(Base):
     picture = Column(String)
 
     google_id = Column(String)
+    
+    phone = Column(String, nullable=True)
+
+    college = Column(String, nullable=True)
+
+    degree = Column(String, nullable=True)
+
+    graduation_year = Column(String, nullable=True)
+
+    github = Column(String, nullable=True)
+
+    linkedin = Column(String, nullable=True)
+
+    location = Column(String, nullable=True)
+
+    bio = Column(String, nullable=True)
+    

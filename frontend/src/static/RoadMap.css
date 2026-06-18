@@ -1,0 +1,81 @@
+.profession-box {
+  margin-top: 24px;
+  margin-bottom: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profession-box label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.profession-box select {
+  width: 320px;
+  height: 46px;
+
+  border: 1px solid #2a3241;
+  border-radius: 10px;
+
+  background: #111827;
+  color: white;
+
+  padding: 0 12px;
+}
+
+.custom-profession {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.custom-profession input {
+  width: 320px;
+  height: 46px;
+
+  background: #111827;
+  color: white;
+
+  border: 1px solid #2a3241;
+  border-radius: 10px;
+
+  padding: 0 12px;
+}
+
+.empty-roadmap {
+  margin-top: 40px;
+  padding: 30px;
+
+  text-align: center;
+
+  border: 1px dashed #2a3241;
+  border-radius: 16px;
+
+  color: #94a3b8;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.page-desc {
+  max-width: 700px;
+  margin-top: 10px;
+  color: #94a3b8;
+  line-height: 1.8;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 10px;
+}
+
+.info-header h4 {
+  margin: 0;
+}

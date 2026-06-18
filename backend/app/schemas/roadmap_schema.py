@@ -8,6 +8,6 @@ from pydantic import BaseModel
 
 class ProfessionSelect(BaseModel):
 
-    user_id: str
+    email: str
 
     profession: str

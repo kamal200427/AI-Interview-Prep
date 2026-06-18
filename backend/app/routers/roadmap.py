@@ -1,145 +1,46 @@
 from fastapi import APIRouter
-from services.roadmap_logic import roadmap_generator
+from fastapi import Depends
 
-router=APIRouter(prefix="/home")
+from sqlalchemy.orm import Session
 
-@router.get("/roadmap/{role}")
-def road_map(role:str):
-    roadmaps = {
-    "AI Engineer": [
-        "Python",
-        "Statistics",
-        "Linear Algebra",
-        "Machine Learning",
-        "Deep Learning",
-        "Computer Vision",
-        "NLP",
-        "LLMs",
-        "RAG",
-        "Agentic AI",
-        "Deployment"
-    ],
+from database.database import get_db
 
-    "Machine Learning Engineer": [
-        "Python",
-        "Statistics",
-        "Machine Learning",
-        "Feature Engineering",
-        "Model Evaluation",
-        "Deep Learning",
-        "MLOps",
-        "Deployment"
-    ],
+from schemas.roadmap_schema import (
+    ProfessionSelect
+)
 
-    "Data Scientist": [
-        "Python",
-        "Statistics",
-        "Data Analysis",
-        "Data Visualization",
-        "Machine Learning",
-        "Experimentation",
-        "Storytelling"
-    ],
+from services.roadmap_service import (
+    get_or_create_roadmap,get_user_selected_roadmap
+)
 
-    "Data Analyst": [
-        "Excel",
-        "SQL",
-        "Python",
-        "Data Cleaning",
-        "EDA",
-        "Power BI",
-        "Tableau"
-    ],
+router = APIRouter(
+    prefix="/home"
+)
 
-    "GenAI Engineer": [
-        "Python",
-        "Deep Learning",
-        "Transformers",
-        "LLMs",
-        "Prompt Engineering",
-        "RAG",
-        "LangChain",
-        "LangGraph",
-        "Agentic AI",
-        "Deployment"
-    ],
 
-    "MLOps Engineer": [
-        "Linux",
-        "Git",
-        "Docker",
-        "Kubernetes",
-        "CI/CD",
-        "MLflow",
-        "Cloud",
-        "Monitoring"
-    ],
+@router.post("/roadmap")
+def road_map(
+    request: ProfessionSelect,
+    db: Session = Depends(get_db)
+):
 
-    "Frontend Developer": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "React",
-        "Next.js",
-        "TypeScript"
-    ],
+    roadmap = get_or_create_roadmap(
+        email=request.email,
+        role=request.profession,
+        db=db
+    )
 
-    "Backend Developer": [
-        "Python",
-        "FastAPI",
-        "Django",
-        "SQL",
-        "Databases",
-        "REST APIs",
-        "Docker"
-    ],
+    return roadmap
 
-    "Full Stack Developer": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "React",
-        "Python",
-        "FastAPI",
-        "SQL",
-        "Docker"
-    ],
+@router.get("/roadmap/user/{email}")
+def get_user_roadmap(
+    email: str,
+    db: Session = Depends(get_db)
+):
 
-    "DevOps Engineer": [
-        "Linux",
-        "Networking",
-        "Git",
-        "Docker",
-        "Kubernetes",
-        "CI/CD",
-        "Cloud",
-        "Monitoring"
-    ],
+    roadmap = get_user_selected_roadmap(
+        email=email,
+        db=db
+    )
 
-    "Cybersecurity Engineer": [
-        "Networking",
-        "Linux",
-        "Security Fundamentals",
-        "Ethical Hacking",
-        "Web Security",
-        "Cloud Security",
-        "Incident Response"
-    ],
-
-    "Mobile App Developer": [
-        "Programming Basics",
-        "Flutter",
-        "Dart",
-        "State Management",
-        "APIs",
-        "Firebase",
-        "App Deployment"
-    ]
-}
-    role=role
-    
-    if role in roadmaps:
-        return {"response":roadmaps[role]}
-    else :
-        skills=roadmap_generator(role=role)
-        return {"response":skills}
+    return roadmap

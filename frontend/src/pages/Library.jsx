@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -15,7 +15,11 @@ import {
   PlayCircle,
 } from "lucide-react";
 
-import { searchResources } from "../services/ResourceApi.jsx";
+import { searchResources,saveResources } from "../services/ResourceApi.jsx";
+import Sidebar from "../components/Sidebar.jsx";
+import {
+  getSavedRoadmap
+} from "../services/RoadmapApi";
 
 const filters = {
   Subject: [
@@ -48,7 +52,41 @@ export default function Library() {
 
   const [selectedType, setSelectedType] =
     useState("all");
+    const [roadmapSubjects,setRoadmapSubjects] =useState([]);
+const [selectedChip, setSelectedChip] =
+  useState("");
+const [selectedResources,setSelectedResources]=useState("")
+const toggleResource =
+(resource) => {
 
+  const exists =
+    selectedResources.some(
+      (r) =>
+        r.link ===
+        resource.link
+    );
+
+  if(exists){
+
+    setSelectedResources(
+      selectedResources.filter(
+        (r) =>
+          r.link !==
+          resource.link
+      )
+    );
+
+  } else {
+
+    setSelectedResources([
+      ...selectedResources,
+      resource
+    ]);
+
+  }
+
+};
+ 
   const handleSearch = async (
     customQuery = ""
   ) => {
@@ -72,6 +110,29 @@ export default function Library() {
       setPdfResults(
         data.pdfs || []
       );
+//save the search in local host
+      localStorage.setItem(
+      "libraryQuery",
+      searchText
+    );
+    const youtube =
+  data.youtube || [];
+
+const pdfs =
+  data.pdfs || [];
+    localStorage.setItem(
+      "libraryYoutube",
+      JSON.stringify(
+        youtube
+      )
+    );
+
+    localStorage.setItem(
+      "libraryPdfs",
+      JSON.stringify(
+        pdfs
+      )
+    );
     } catch (err) {
       console.log(err);
     }
@@ -88,18 +149,95 @@ export default function Library() {
     selectedType === "youtube"
       ? []
       : pdfResults;
+    useEffect(() => {
+const savedQuery =
+    localStorage.getItem(
+      "libraryQuery"
+    );
+
+  const savedYoutube =
+    localStorage.getItem(
+      "libraryYoutube"
+    );
+
+  const savedPdfs =
+    localStorage.getItem(
+      "libraryPdfs"
+    );
+    if(savedQuery){
+
+    setQuery(savedQuery);
+
+  }
+
+  if(savedYoutube){
+
+    setYoutubeResults(
+      JSON.parse(
+        savedYoutube
+      )
+    );
+  }
+  if(savedPdfs){
+
+    setPdfResults(
+      JSON.parse(
+        savedPdfs
+      )
+    );
+  }
+  if(savedQuery){
+
+  setQuery(savedQuery);
+
+  setSelectedChip(
+    savedQuery
+  );
+
+}
+  const loadSubjects =
+  async () => {
+
+    try{
+
+      const user =
+      JSON.parse(
+        localStorage.getItem(
+          "user"
+        )
+      );
+
+      if(!user) return;
+
+      const data =
+      await getSavedRoadmap(
+        user.email
+      );
+
+      setRoadmapSubjects(
+        data.subjects || []
+      );
+
+    }
+    catch(error){
+
+      console.log(error);
+
+    }
+
+  };
+
+  loadSubjects();
+
+},[]);
 
   return (
-    <div className="page">
-      <Navbar authed />
+    <div className="app-shell">
 
-      <main
-        className="page-body container"
-        style={{
-          paddingTop: 36,
-          paddingBottom: 60,
-        }}
-      >
+  <Sidebar />
+
+  <main className="app-main">
+
         {/* HEADER */}
 
         <h1
@@ -154,26 +292,83 @@ export default function Library() {
               ? "Searching..."
               : "Search"}
           </button>
-        </div>
+           
+          <button
+  className="search-btn"
+  onClick={() => {
 
+    localStorage.removeItem(
+      "libraryQuery"
+    );
+
+    localStorage.removeItem(
+      "libraryYoutube"
+    );
+
+    localStorage.removeItem(
+      "libraryPdfs"
+    );
+
+    setQuery("");
+
+    setYoutubeResults([]);
+
+    setPdfResults([]);
+
+  }}
+>
+  Clear
+</button>
+
+        </div>
+            
         {/* SUBJECT CHIPS */}
 
         <div className="chips">
-          {[
-            "DBMS",
-            "DSA",
-            "OOPS",
-            "OS",
-            "CN",
-            "JAVA",
-            "AIML",
-          ].map((subject) => (
+          {roadmapSubjects.map((subject) => (
             <button
               key={subject}
-              className="chip"
-              onClick={() =>
-                handleSearch(subject)
-              }
+              className={`chip ${
+    selectedChip === subject
+      ? "chip-active"
+      : ""
+  }`}
+               onClick={() => {
+
+  // Same chip clicked again
+  if(selectedChip === subject){
+
+    setSelectedChip("");
+
+    setQuery("");
+
+    setYoutubeResults([]);
+
+    setPdfResults([]);
+
+    localStorage.removeItem(
+      "libraryQuery"
+    );
+
+    localStorage.removeItem(
+      "libraryYoutube"
+    );
+
+    localStorage.removeItem(
+      "libraryPdfs"
+    );
+
+    return;
+  }
+
+  // New chip selected
+  setSelectedChip(subject);
+
+  setQuery(subject);
+
+  handleSearch(subject);
+
+}}
             >
               {subject}
             </button>
@@ -333,8 +528,8 @@ export default function Library() {
             )}
           </section>
         </div>
+         
       </main>
-
       <FloatingAIBot />
 
       <Footer />

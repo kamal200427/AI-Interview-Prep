@@ -100,39 +100,64 @@ export const searchResources = async (query) => {
 
  
 
-export const saveResource=async(resource)=>{
-  // console.log("resources",response);
+ 
 
-  const response=await fetch(
-    `${API_URL}/resource/select`,
-    {
-      method:"POST",
+export const saveResources = async (
+  resource
+) => {
 
-      headers:{
-        "Content-Type":"application/json"
-      },
+  const response =
+    await fetch(
+      `${API_URL}/resource/select`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+        body: JSON.stringify(
+          resource
+        )
+      }
+    );
 
-      body:JSON.stringify(resource)
-    }
-  );
-  
-  const result = await response.json();
-  console.log(
-  JSON.stringify(result, null, 2)
-);
-if (!response.ok) {
-    throw new Error("Failed");
-  }
-   
-return result;
+  return await response.json();
 };
 
+ export const removeResource =
+async (user_id, link) => {
 
-export const getUserResources=async(userId)=>{
+  const response =
+    await fetch(
+      `http://127.0.0.1:8000/resource/remove?user_id=${user_id}&link=${encodeURIComponent(link)}`,
+      {
+        method: "DELETE"
+      }
+    );
 
-  const response=await fetch(
-    `${API_URL}/resource/user/${userId}`
-  );
+  return await response.json();
+};
+export const checkResource =
+  async (
+    user_id,
+    link
+  ) => {
 
-  return response.json();
+    const response =
+      await fetch(
+        `${API_URL}/resource/check`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body: JSON.stringify({
+            user_id,
+            link
+          })
+        }
+      );
+
+    return await response.json();
 };

@@ -11,6 +11,7 @@ import MockInterview from "./pages/MockInterview.jsx";
 import Exam from "./pages/Exam.jsx";
 import ChatBoard from "./pages/Chatboard.jsx";
 import SignUp from "./pages/SignUp.jsx";
+import Profile from "./pages/Profile.jsx";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/profile" element={<Profile />}/>
 
       <Route path="/onboarding" element={<Onboarding />} />
       <Route path="/courses" element={<Courses />} />

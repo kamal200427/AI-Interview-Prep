@@ -1,7 +1,13 @@
 import "./YoutubeResourceCard.css";
 import { PlayCircle, CheckCircle } from "lucide-react";
-import { useState } from "react";
-import { saveResource } from "../services/ResourceApi";
+import { useEffect, useState } from "react";
+import {
+  saveResources,
+  removeResource,
+  checkResource
+}
+from "../services/ResourceApi";
+
 
 export default function YoutubeResourceCard({
   title,
@@ -23,8 +29,18 @@ export default function YoutubeResourceCard({
       const user = JSON.parse(
         localStorage.getItem("user")
       );
+      if(saved){
 
-      await saveResource({
+      await removeResource(
+        user.email,
+        link
+      );
+
+      setSaved(false);
+
+      return;
+    }
+      await saveResources({
         user_id: user.email,
         subject,
         resource_type: "youtube",
@@ -55,6 +71,45 @@ export default function YoutubeResourceCard({
 };
 const thumbnail =
     getYoutubeThumbnail(link);
+
+  useEffect(() => {
+
+  const checkSaved =
+  async () => {
+
+    try{
+
+      const user =
+      JSON.parse(
+        localStorage.getItem(
+          "user"
+        )
+      );
+
+      if(!user) return;
+
+      const result =
+      await checkResource(
+        user.email,
+        link
+      );
+
+      setSaved(
+        result.saved
+      );
+
+    }
+    catch(error){
+
+      console.log(error);
+
+    }
+
+  };
+
+  checkSaved();
+
+}, [link]);
   return (
 
     <div
@@ -103,28 +158,25 @@ const thumbnail =
       </div>
 
       {/* Button */}
-
-      <button
-        className={`yt-save-btn ${
-          saved ? "saved" : ""
-        }`}
-        onClick={handleSave}
-        disabled={saved}
-      >
-
-        {saved ? (
-          <>
-            <CheckCircle size={18}/>
-            Added
-          </>
-        ) : (
-          <>
-            + Add Resource
-          </>
-        )}
-
-      </button>
-
+       <button
+  className={`yt-save-btn ${
+    saved ? "saved" : ""
+  }`}
+  onClick={handleSave}
+>
+  {
+    saved
+    ?
+    <>
+      <CheckCircle size={18}/>
+      Added
+    </>
+    :
+    <>
+      + Add Resource
+    </>
+  }
+</button>
     </div>
   );
 }

@@ -18,3 +18,10 @@ class ResourceCreate(BaseModel):
     channel_name: Optional[str] = None
 
     author: Optional[str] = None
+    
+
+class ResourceCheck(BaseModel):
+
+    user_id:str
+
+    link:str

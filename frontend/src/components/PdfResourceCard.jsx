@@ -5,8 +5,13 @@ import {
   CheckCircle,
   Eye
 } from "lucide-react";
-import { useState } from "react";
-import { saveResource } from "../services/ResourceApi";
+import { useEffect, useState } from "react";
+import {
+  saveResources,
+  removeResource,
+  checkResource
+}
+from "../services/ResourceApi";
 
 export default function PdfResourceCard({
   title,
@@ -18,33 +23,97 @@ export default function PdfResourceCard({
   const [saved, setSaved] =
     useState(false);
 
-  const handleSave = async (e) => {
+   const handleSave =
+async (e) => {
 
-    e.stopPropagation();
+  e.stopPropagation();
 
-    try {
+  try{
 
-      const user = JSON.parse(
-        localStorage.getItem("user")
+    const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
+
+    if(saved){
+
+      await removeResource(
+        user.email,
+        link
       );
 
-      await saveResource({
-        user_id: user.email,
-        subject,
-        resource_type: "pdf",
-        title,
+      setSaved(false);
+
+      return;
+    }
+
+    await saveResources({
+
+      user_id:
+      user.email,
+
+      subject,
+
+      resource_type:
+      "pdf",
+
+      title,
+
+      link
+
+    });
+
+    setSaved(true);
+
+  }
+  catch(error){
+
+    console.log(error);
+
+  }
+
+};
+console.log("SUBJECT =", subject);
+useEffect(() => {
+
+  const checkSaved =
+  async () => {
+
+    try{
+
+      const user =
+      JSON.parse(
+        localStorage.getItem(
+          "user"
+        )
+      );
+
+      if(!user) return;
+
+      const result =
+      await checkResource(
+        user.email,
         link
-      });
+      );
 
-      setSaved(true);
+      setSaved(
+        result.saved
+      );
 
-    } catch (error) {
+    }
+    catch(error){
 
       console.log(error);
 
     }
+
   };
-console.log("SUBJECT =", subject);
+
+  checkSaved();
+
+}, [link]);
   return (
 
     <div
@@ -126,28 +195,26 @@ console.log("SUBJECT =", subject);
 
       </div>
 
-      <button
-        className={`add-btn ${
-          saved ? "saved" : ""
-        }`}
-        onClick={handleSave}
-        disabled={saved}
-      >
-
-        {saved ? (
-          <>
-            <CheckCircle size={18}/>
-            Added
-          </>
-        ) : (
-          <>
-            <Download size={16}/>
-            Add Resource
-          </>
-        )}
-
-      </button>
-
+     <button
+  className={`add-btn ${
+    saved ? "saved" : ""
+  }`}
+  onClick={handleSave}
+>
+  {
+    saved
+    ?
+    <>
+      <CheckCircle size={18}/>
+      Added
+    </>
+    :
+    <>
+      <Download size={16}/>
+      Add Resource
+    </>
+  }
+</button>
     </div>
   );
 }

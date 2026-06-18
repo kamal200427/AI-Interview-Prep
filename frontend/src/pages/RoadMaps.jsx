@@ -1,146 +1,373 @@
 import { useEffect, useState } from "react";
 import FloatingAIBot from "../components/FloatingAIBot.jsx";
 import Sidebar from "../components/Sidebar.jsx";
-import { Check, Code2, Lock, Server, Gauge, Flag, Users } from "lucide-react";
-import { getRoadmap } from "../services/RoadmapApi";
-const nodes = [
-  { state: "done", icon: <Check size={26} />, t: "HTML Basics", s: "Completed" },
-  { state: "active", icon: <Code2 size={26} />, t: "JavaScript Fundamentals", s: "In Progress · 66%" },
-  { state: "locked", icon: <Lock size={24} />, t: "React & State Management", s: "Locked" },
-  { state: "locked", icon: <Server size={24} />, t: "Node.js Backend", s: "Locked" },
-];
+import {
+  Code2,
+  Gauge,
+  Flag,
+  Users
+} from "lucide-react";
+
+import { getRoadmap,getSavedRoadmap } from "../services/RoadmapApi";
+import "../static/Roadmap.css"
 
 const info = [
   {
     icon: <Gauge size={18} />,
     t: "Learning Velocity",
-    d: "You're progressing 20% faster than the average student. Keep it up!",
+    d: "You're progressing faster than average learners.",
   },
   {
     icon: <Flag size={18} />,
     t: "Next Milestone",
-    d: 'Finish JavaScript Fundamentals to earn your "Scripting Novice" badge.',
+    d: "Complete your current subject to unlock the next one.",
   },
   {
     icon: <Users size={18} />,
     t: "Community",
-    d: "42,000+ others are currently on this path. Join the discussion.",
+    d: "Connect with other learners following this roadmap.",
   },
 ];
 
+const professionOptions = [
+  "AI Engineer",
+  "Machine Learning Engineer",
+  "Data Scientist",
+  "Data Analyst",
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "DevOps Engineer",
+  "Cybersecurity Engineer",
+  "Mobile App Developer",
+  "Not In List",
+];
+
 export default function Roadmaps() {
-  const [professions, setProfessions] = useState([]);
+  const [selectedProfession, setSelectedProfession] =
+    useState("");
 
-const [selectedProfession,setSelectedProfession] = useState("");
+  const [customProfession, setCustomProfession] =
+    useState("");
 
-const [nodes, setNodes] =useState([]);
+  const [showCustomInput, setShowCustomInput] =
+    useState(false);
 
-const loadRoadmap = async () => {
-  try {
-    const user = JSON.parse(
-  localStorage.getItem("user")
-);
-    console.log(user);
-    
-    const email=user.email;
-    const data = await getRoadmap(email);
+  const [nodes, setNodes] = useState([]);
 
-    setNodes(data.nodes);
 
-    setSelectedProfession(
-      data.profession
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const generateRoadmap = async (
+    profession
+  ) => {
+    try {
+      const user = JSON.parse(
+        localStorage.getItem("user")
+      );
+
+      const data = await getRoadmap(
+        user.email,
+        profession
+      );
+      console.log("FULL RESPONSE:", data);
+      console.log("TYPE:", typeof data);
+      console.log("IS ARRAY:", Array.isArray(data));
+      
+      const subjects =
+  data.subjects || [];
+
+      setNodes(
+        subjects.map(
+          (subject, index) => ({
+            t: subject,
+
+            s:
+              index === 0
+                ? "In Progress"
+                : "Locked",
+
+            state:
+              index === 0
+                ? "active"
+                : "locked",
+
+            icon: (
+              <Code2 size={24} />
+            ),
+          })
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleProfessionChange =
+    async (e) => {
+      const profession =
+        e.target.value;
+
+      setSelectedProfession(
+        profession
+      );
+
+      if (
+        profession ===
+        "Not In List"
+      ) {
+        setShowCustomInput(true);
+        return;
+      }
+
+      setShowCustomInput(false);
+
+      await generateRoadmap(
+        profession
+      );
+    };
+
+  const handleCustomProfession =
+    async () => {
+      if (
+        !customProfession.trim()
+      )
+        return;
+
+      setSelectedProfession(
+        customProfession
+      );
+
+      await generateRoadmap(
+        customProfession
+      );
+    };
 useEffect(() => {
 
-  loadRoadmap();
+  const loadSavedRoadmap =
+    async () => {
+
+      try {
+
+        const user =
+          JSON.parse(
+            localStorage.getItem(
+              "user"
+            )
+          );
+
+        if (!user) return;
+
+        const data =
+          await getSavedRoadmap(
+            user.email
+          );
+          console.log("save roadmap",data);
+          console.log("subjects",data.subjects);
+          
+        // if (
+        //   !data.profession
+        // )
+        //   return;
+        if (
+    !data ||
+    !data.profession ||
+    !Array.isArray(data.subjects)
+){
+    setSelectedProfession("");
+    setNodes([]);
+    return;
+}
+
+        setSelectedProfession(
+          data.profession
+        );
+
+        setNodes(
+          data.subjects.map(
+            (
+              subject,
+              index
+            ) => ({
+              t: subject,
+
+              s:
+                index === 0
+                  ? "In Progress"
+                  : "Locked",
+
+              state:
+                index === 0
+                  ? "active"
+                  : "locked",
+
+              icon:
+                <Code2 size={24} />
+            })
+          )
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    };
+
+  loadSavedRoadmap();
 
 }, []);
-
-const handleProfessionChange =
-async (e) => {
-
-  const profession =
-    e.target.value;
-
-  setSelectedProfession(
-    profession
-  );
-
-  await saveProfession(
-    email,
-    profession
-  );
-
-  loadRoadmap();
-};
   return (
     <div className="app-shell">
       <Sidebar />
+
       <main className="app-main">
-        <h1 style={{ fontSize: 26, fontWeight: 800 }}>Visual Career Path</h1>
-        <p className="muted" style={{ maxWidth: 560, marginTop: 6 }}>
-          Master the modern web stack with our guided, structured learning path. Track
-          your progress, unlock new tiers, and build a portfolio-ready skillset from
-          scratch.
+        <h1 className="page-title">
+          Visual Career Path
+        </h1>
+
+        <p className="page-desc">
+          Master the modern web stack
+          with our guided, structured
+          learning path. Track your
+          progress, unlock new tiers,
+          and build a portfolio-ready
+          skillset from scratch.
         </p>
+
         <div className="profession-box">
 
-  <label>
-    Career Path
-  </label>
+          <label>
+            Career Path
+          </label>
 
-  <select
-    value={selectedProfession}
-    onChange={handleProfessionChange}
-  >
-    {professions.map((job) => (
-      <option
-        key={job}
-        value={job}
-      >
-        {job}
-      </option>
-    ))}
-  </select>
+          <select
+            value={
+              selectedProfession
+            }
+            onChange={
+              handleProfessionChange
+            }
+          >
+            <option value="">
+              Select Profession
+            </option>
 
-</div>
-        <div className="roadmap">
-          {nodes.map((n, i) => (
-            <div key={n.t} style={{ display: "contents" }}>
-              <div className={`road-node ${n.state}`}>
-                <div className="node-ic">{n.icon}</div>
-                <div className="node-t">{n.t}</div>
-                <div className="node-s">{n.s}</div>
-              </div>
-              {i < nodes.length - 1 && (
-                <div className={`road-line ${n.state === "done" ? "done" : ""}`} />
-              )}
+            {professionOptions.map(
+              (job) => (
+                <option
+                  key={job}
+                  value={job}
+                >
+                  {job}
+                </option>
+              )
+            )}
+          </select>
+
+          {showCustomInput && (
+            <div className="custom-profession">
+
+              <input
+                type="text"
+                placeholder="Enter Profession..."
+                value={
+                  customProfession
+                }
+                onChange={(e) =>
+                  setCustomProfession(
+                    e.target.value
+                  )
+                }
+              />
+
+              <button
+                className="btn btn-primary"
+                onClick={
+                  handleCustomProfession
+                }
+              >
+                Generate Roadmap
+              </button>
+
             </div>
-          ))}
+          )}
         </div>
 
-        <div className="grid grid-3" style={{ marginTop: 30 }}>
+        {nodes.length === 0 ? (
+          <div className="empty-roadmap">
+            Select a profession to
+            generate your roadmap.
+          </div>
+        ) : (
+          <div className="roadmap">
+
+            {nodes.map(
+              (n, i) => (
+                <div
+                  key={n.t}
+                  style={{
+                    display:
+                      "contents",
+                  }}
+                >
+                  <div
+                    className={`road-node ${n.state}`}
+                  >
+                    <div className="node-ic">
+                      {n.icon}
+                    </div>
+
+                    <div className="node-t">
+                      {n.t}
+                    </div>
+
+                    <div className="node-s">
+                      {n.s}
+                    </div>
+                  </div>
+
+                  {i <
+                    nodes.length -
+                      1 && (
+                    <div
+                      className={`road-line`}
+                    />
+                  )}
+                </div>
+              )
+            )}
+
+          </div>
+        )}
+
+        <div
+          className="grid grid-3"
+          style={{
+            marginTop: 30,
+          }}
+        >
           {info.map((c) => (
-            <div key={c.t} className="card">
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                <span className="icon-box" style={{ width: 36, height: 36 }}>
+            <div
+              key={c.t}
+              className="card"
+            >
+              <div className="info-header">
+                <span className="icon-box">
                   {c.icon}
                 </span>
-                <h4 style={{ fontSize: 15, fontWeight: 700 }}>{c.t}</h4>
+
+                <h4>{c.t}</h4>
               </div>
-              <p className="muted" style={{ fontSize: 13.5 }}>
+
+              <p className="muted">
                 {c.d}
               </p>
             </div>
           ))}
         </div>
+
       </main>
+
       <FloatingAIBot />
     </div>
   );
 }
-

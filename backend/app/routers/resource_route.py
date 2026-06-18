@@ -6,54 +6,96 @@ from database.database import get_db
 from models.resource import Resource
 
 from schemas.resource_schema import ResourceCreate
+from schemas.resource_schema import ResourceCheck
 
 router=APIRouter(prefix="/resource")
 
 
 @router.post("/select")
-def select_resource(
-    resource:ResourceCreate,
-    db:Session=Depends(get_db)
+def save_resource(
+    item: ResourceCreate,
+    db: Session = Depends(get_db)
 ):
 
-    new_resource=Resource(
-
-        user_id=resource.user_id,
-
-        subject=resource.subject,
-
-        resource_type=resource.resource_type,
-
-        title=resource.title,
-
-        link=resource.link,
-
-        thumbnail=resource.thumbnail,
-
-        channel_name=resource.channel_name,
-
-        author=resource.author
+    existing = (
+        db.query(Resource)
+        .filter(
+            Resource.user_id == item.user_id,
+            Resource.link == item.link
+        )
+        .first()
     )
 
-    db.add(new_resource)
+    if not existing:
 
-    db.commit()
+        db.add(
+            Resource(
+                user_id=item.user_id,
+                subject=item.subject,
+                resource_type=item.resource_type,
+                title=item.title,
+                link=item.link,
+                thumbnail=item.thumbnail,
+                channel_name=item.channel_name,
+                author=item.author
+            )
+        )
 
-    db.refresh(new_resource)
+        db.commit()
 
     return {
-        "message":"Resource Added Successfully"
+        "message":
+        "Resource Added Successfully"
     }
     
-    
-@router.get("/user/{user_id}")
-def get_resources(
-    user_id:str,
-    db:Session=Depends(get_db)
+
+@router.delete("/remove")
+def remove_resource(
+    user_id: str,
+    link: str,
+    db: Session = Depends(get_db)
 ):
 
-    resources=db.query(Resource).filter(
-        Resource.user_id==user_id
-    ).all()
+    resource = (
+        db.query(Resource)
+        .filter(
+            Resource.user_id == user_id,
+            Resource.link == link
+        )
+        .first()
+    )
 
-    return resources
+    if resource:
+
+        db.delete(resource)
+        db.commit()
+
+    return {
+        "message":
+        "Resource Removed"
+    }
+    
+@router.post(
+    "/check"
+)
+def check_resource(
+    request: ResourceCheck,
+    db: Session = Depends(get_db)
+):
+
+    resource = (
+        db.query(Resource)
+        .filter(
+            Resource.user_id ==
+            request.user_id,
+
+            Resource.link ==
+            request.link
+        )
+        .first()
+    )
+
+    return {
+        "saved":
+        resource is not None
+    }

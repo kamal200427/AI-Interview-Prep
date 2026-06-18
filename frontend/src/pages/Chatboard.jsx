@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import "./ChatBoard.css";
+import "../static/ChatBoard.css";
 import { useLocation } from "react-router-dom";
 import {
   askPlatformQuestion,

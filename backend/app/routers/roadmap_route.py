@@ -40,48 +40,48 @@ def select_profession(
         "message": "Saved"
     }
 
-@router.get("/{email}")
-def get_roadmap(
-    user_id:str,
-    db:Session = Depends(get_db)
-):
-
-    user = db.query(
-        UserRoadmap
-    ).filter(
-        UserRoadmap.email == email
-    ).first()
-
-    if not user:
-        return {
-            "profession": None,
-            "nodes": []
-        }
-
-    profession = db.query(
-        Profession
-    ).filter(
-        Profession.name ==
-        user.profession
-    ).first()
-
-    nodes = db.query(
-        RoadmapSubject
-    ).filter(
-        RoadmapSubject.profession_id ==
-        profession.id
-    ).order_by(
-        RoadmapSubject.order_no
-    ).all()
-
-    return {
-        "profession": user.profession,
-
-        "nodes": [
-            {
-                "state": n.state,
-                "title": n.title
-            }
-            for n in nodes
-        ]
-    }
+# @router.get("/{email}")
+# def get_roadmap(
+#     user_id:str,
+#     db:Session = Depends(get_db)
+# ):
+# 
+#     user = db.query(
+#         UserRoadmap
+#     ).filter(
+#         UserRoadmap.email == email
+#     ).first()
+# 
+#     if not user:
+#         return {
+#             "profession": None,
+#             "nodes": []
+#         }
+# 
+#     profession = db.query(
+#         Profession
+#     ).filter(
+#         Profession.name ==
+#         user.profession
+#     ).first()
+# 
+#     nodes = db.query(
+#         RoadmapSubject
+#     ).filter(
+#         RoadmapSubject.profession_id ==
+#         profession.id
+#     ).order_by(
+#         RoadmapSubject.order_no
+#     ).all()
+# 
+#     return {
+#         "profession": user.profession,
+# 
+#         "nodes": [
+#             {
+#                 "state": n.state,
+#                 "title": n.title
+#             }
+#             for n in nodes
+#         ]
+#     }

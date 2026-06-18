@@ -9,19 +9,21 @@ from database.database import engine,Base
 from routers.chatbot import router as chatbot_router
 from routers.genrel_chatbot import router as genrel_chatbot
 from routers.search_resource import router as search_router
-<<<<<<< HEAD
-from routers.roadmap import router as roadmap_router
-app=FastAPI()
-UserDB.metadata.create_all(bind=engine)
-
-router_list=[question_router,auth_router,otp_router,chatbot_router,genrel_chatbot,search_router,roadmap_router]
-=======
 from routers.resource_route import router as resource_router
+from routers.roadmap import router as roadmap_router
+from routers.course_route import router as course_router
 app=FastAPI()
 Base.metadata.create_all(bind=engine)
  
-router_list=[question_router,auth_router,otp_router,chatbot_router,genrel_chatbot,search_router,resource_router]
->>>>>>> e39e31c68b16e71ea514117ef28821533608f039
+router_list=[question_router,
+             auth_router,
+             otp_router,
+             chatbot_router,
+             genrel_chatbot,
+             search_router,
+             resource_router,
+             roadmap_router,
+             course_router]
 
 for router in router_list:
     app.include_router(router)
