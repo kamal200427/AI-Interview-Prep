@@ -17,3 +17,8 @@ class Question(BaseModel):
 
 class Quiz(BaseModel):
     quiz: List[Question] = Field(description="All generated questions")
+    
+
+class MultiSubjectRequest(BaseModel):
+
+    subjects: list[str]

@@ -113,3 +113,32 @@ def complete_subject(
         "message":
         "Subject Completed"
     }
+
+
+@router.get("/completed-subjects/{user_id}")
+def completed_subjects(
+    user_id: str,
+    db: Session = Depends(get_db)
+):
+
+    resources = (
+        db.query(Resource)
+        .filter(
+            Resource.user_id == user_id,
+            Resource.completion == 100
+        )
+        .all()
+    )
+
+    subjects = sorted(
+        list(
+            set(
+                r.subject
+                for r in resources
+            )
+        )
+    )
+
+    return {
+        "subjects": subjects
+    }

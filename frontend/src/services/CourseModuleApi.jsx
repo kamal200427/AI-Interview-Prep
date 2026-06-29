@@ -58,3 +58,17 @@ async (
 
   return await response.json();
 };
+
+export const getCompletedSubjects =
+async (userId) => {
+
+    const response =
+    await fetch(
+
+        `${API_URL}/completed-subjects/${userId}`
+
+    );
+
+    return await response.json();
+
+};

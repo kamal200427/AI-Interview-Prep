@@ -34,5 +34,6 @@ def question(topic:str):
     chain=prompt|model|parser
 
     result=chain.invoke({"topic":topic})
+    
     return result
 

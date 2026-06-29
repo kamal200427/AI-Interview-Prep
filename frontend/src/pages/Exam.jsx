@@ -1,350 +1,388 @@
-import { useEffect, useState } from "react";
-import { Flag, ChevronLeft, ChevronRight } from "lucide-react";
-import { getQuestions } from "../services/ExamApi";
+import { useEffect, useState, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import Sidebar from "../components/Sidebar";
 import FloatingAIBot from "../components/FloatingAIBot";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-const SUBJECTS = [
-  "DSA",
-  "DBMS",
-  "Operating System",
-  "Computer Network",
-  "OOPS",
-  "C Programming",
-  "C++",
-  "Java",
-  "Python",
-  "JavaScript",
-  "SQL",
-  "Machine Learning",
-  "Deep Learning",
-  "Artificial Intelligence",
-  "NLP",
-  "Computer Vision",
-  "Generative AI",
-  "Cloud Computing",
-  "System Design",
-  "Software Engineering",
-  "Aptitude",
-   
-];
+
+import ExamHeader from "../components/ExamHeader";
+import ExamTimer from "../components/ExamTimer";
+import QuestionNavigator from "../components/QuestionNavigator";
+import QuestionCard from "../components/QuestionCard";
+import ExamControls from "../components/ExamControls";
+
+import {
+  getQuestions,
+  getMultipleQuestions,
+  createExamSession,
+  saveAnswer,
+  finishExam,
+} from "../services/ExamApi";
+
+import "../static/Exam.css";
 
 export default function Exam() {
-  const [selected, setSelected] = useState(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const {
+    type = "single",
+    subject = "",
+    subjects = [],
+  } = state || {};
+
+  // -----------------------------
+  // States
+  // -----------------------------
   const [quiz, setQuiz] = useState([]);
-const [currentIndex, setCurrentIndex] = useState(0);
-const [flaggedQuestions, setFlaggedQuestions] = useState([]);
- const [questionData, setQuestionData] = useState({
-  subject: "",
-  question_no: 0,
-  total_questions: 0,
-  score: 0,
-  question: "",
-  options: [],
-});
-  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [selected, setSelected] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(null);
-const [subject, setSubject] = useState("DBMS");
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
- const fetchQuestion = async () => {
-  try {
-    const data = await getQuestions(subject);
-    console.log(data);
-    setQuiz(data.quiz); 
-     setCurrentIndex(0);
-    setSelected(null);
-    setAnsweredQuestions([]);
-    const firstQuestion = data.quiz[0];
 
-    setQuestionData({
-      subject: subject,
-      question_no: 1,
-      total_questions: data.quiz.length,
-      score: 0,
-      question: firstQuestion.question,
-      options: firstQuestion.options,
-      correct_option: firstQuestion.correct_option,
-    });
+  const [score, setScore] = useState(0);
 
-    setLoading(false);
-  } catch (error) {
-    console.log(error);
-    setLoading(false);
-  }
-};
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const [flaggedQuestions, setFlaggedQuestions] = useState([]);
 
-const previousQuestion = () => {
-  if (currentIndex > 0) {
-    const prev = currentIndex - 1;
+  const [sessionId, setSessionId] = useState(null);
 
-    setCurrentIndex(prev);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    setQuestionData({
-      subject: subject,
-      question_no: prev + 1,
-      total_questions: quiz.length,
-      score: questionData.score,
-      question: quiz[prev].question,
-      options: quiz[prev].options,
-      correct_option: quiz[prev].correct_option,
-    });
+  // 30 Minutes
+  const [timeLeft, setTimeLeft] = useState(30 * 60);
 
-    setSelected(null);
-  }
-};
+  // -----------------------------
+  // Current Question
+  // -----------------------------
+  const currentQuestion =
+    quiz[currentIndex] || null;
 
-const skipQuestion = () => {
-  if (currentIndex < quiz.length - 1) {
-    const next = currentIndex + 1;
+  // -----------------------------
+  // Load Question
+  // -----------------------------
+  const loadQuestion = useCallback(
+    (index) => {
+      if (index < 0 || index >= quiz.length) return;
 
-    setCurrentIndex(next);
-
-    setQuestionData({
-      ...questionData,
-      question_no: next + 1,
-      question: quiz[next].question,
-      options: quiz[next].options,
-      correct_option: quiz[next].correct_option,
-    });
-
-    setSelected(null);
-  }
-};
-
-const flagQuestion = () => {
-  if (!flaggedQuestions.includes(currentIndex + 1)) {
-    setFlaggedQuestions([
-      ...flaggedQuestions,
-      currentIndex + 1,
-    ]);
-  }
-};
-const submitAnswer = () => {
-  if (selected === null) {
-    alert("Please select an option");
-    return;
-  }
-
-  const correct =
-    selected === questionData.correct_option;
-
-  setIsCorrect(correct);
-  setSubmitted(true);
-
-  if (correct) {
-    setQuestionData((prev) => ({
-      ...prev,
-      score: prev.score + 1,
-    }));
-  }
-};
- if (loading) {
-    return <h2>Loading Questions...</h2>;
-  }
-
-const cells = Array.from(
-  { length: questionData.total_questions || 20 },
-  (_, index) => ({
-    n: index + 1,
-    s:
-      index === currentIndex
-        ? "current"
-        : answeredQuestions.includes(index + 1)
-        ? "answered"
-        : flaggedQuestions.includes(index + 1)
-        ? "flagged"
-        : ""
-  })
-);
-  return (
-    
-    <>
-    <Navbar authed />
-    <div className="subject-wrapper">
-    <div className="subject-selector">
-  <label>Select Subject</label>
-
-  <select
-    value={subject}
-    onChange={(e) => setSubject(e.target.value)}
-    className="subject-dropdown"
-  >
-    {SUBJECTS.map((sub) => (
-      <option key={sub} value={sub}>
-        {sub}
-      </option>
-    ))}
-  </select>
-
-  <button
-    className="btn btn-primary"
-    onClick={() => {
-      setLoading(true);
-      fetchQuestion();
-    }}
-  >
-    Load Questions
-  </button>
-</div>
-    </div>
-    <div className="exam-shell">
-      
-      {/* Map sidebar */}
-      <aside className="exam-side">
-        <h3>Examination Map</h3>
-        <div className="sub">{questionData.total_questions} Questions Total</div>
-
-        <div className="q-map">
-          {cells.map((c) => (
-            <div key={c.n} className={`q-cell ${c.s}`}>
-              {c.n}
-            </div>
-          ))}
-        </div>
-
-        <div className="legend">
-          <div className="lg">
-            <span className="ld" style={{ background: "var(--green)" }} /> Answered
-          </div>
-          <div className="lg">
-            <span className="ld" style={{ background: "var(--surface-3)" }} /> Unvisited
-          </div>
-          <div className="lg">
-            <span className="ld" style={{ background: "var(--amber)" }} /> Flagged
-          </div>
-        </div>
-      </aside>
-
-      {/* Main */}
-      <main className="exam-main">
-        <div className="exam-card">
-          <div className="q-meta">
-  <span className="badge badge-muted">
-    Question {questionData.question_no} of{" "}
-    {questionData.total_questions}
-  </span>
-
-  <span
-    className="muted"
-    style={{ fontSize: 13, fontWeight: 600 }}
-  >
-    Score: {questionData.score} Points
-  </span>
-</div>
-
-          <div className="exam-q">
-       {questionData.question}
-          </div>
-
-        {questionData?.options?.map((o, i) => {
-      let optionClass = "";
-
-     if (submitted) {
-
-    if (i === questionData.correct_option) {
-      optionClass = "correct-option";
-    }
-
-    if (
-      i === selected &&
-      i !== questionData.correct_option
-    ) {
-      optionClass = "wrong-option";
-    }
-  }
-
-  return (
-    <div
-      key={i}
-      className={`option ${
-         !submitted && selected === i ? "selected" : ""
-      } ${optionClass}`}
-      onClick={() =>
-        !submitted && setSelected(i)
-      }
-    >
-      <span className="radio" />
-      {o}
-    </div>
+      setCurrentIndex(index);
+      setSelected(null);
+      setSubmitted(false);
+    },
+    [quiz]
   );
-})}
-{submitted && (
-  <div
-    className={`answer-result ${
-      isCorrect ? "correct" : "wrong"
-    }`}
-  >
-    {isCorrect
-      ? "✅ Correct Answer"
-      : `❌ Wrong Answer. Correct Answer: ${
-          questionData.options[
-            questionData.correct_option
-          ]
-        }`}
-  </div>
-)}
-          <div className="exam-foot">
-            <div className="grp">
-              {currentIndex > 0 && (
-            <button
-    className="btn btn-outline"
-    onClick={previousQuestion}
-         >
-        <ChevronLeft size={16} />
-       Previous
-     </button>
-        )}
-              <button className="btn btn-ghost" onClick={skipQuestion}>Skip</button>
-            </div>
-            <div className="grp">
-              <button className="btn btn-outline" onClick={flagQuestion}>
-                <Flag size={15} /> Flag Question
-              </button>
-              <button
-        className="btn btn-success"
-        onClick={submitAnswer}
-       disabled={submitted}
-      >
-       Submit
-        </button>
-              {currentIndex < quiz.length - 1 && (
-              <button
-          className="btn btn-primary"
-          onClick={() => {
-    if (currentIndex < quiz.length - 1) {
-      const next = currentIndex + 1;
 
-      setCurrentIndex(next);
+  // -----------------------------
+  // Load Exam
+  // -----------------------------
+  const loadExam = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-    setQuestionData({
-      subject: subject,
-      question_no: next + 1,
-      total_questions: quiz.length,
-      score: questionData.score,
-      question: quiz[next].question,
-      options: quiz[next].options,
-      correct_option: quiz[next].correct_option,
+      let response;
+
+      if (type === "single") {
+        response = await getQuestions(subject);
+      } else {
+        response = await getMultipleQuestions(subjects);
+      }
+
+      if (
+        !response ||
+        !response.quiz ||
+        response.quiz.length === 0
+      ) {
+        setError("No questions found.");
+        setLoading(false);
+        return;
+      }
+
+      setQuiz(response.quiz);
+
+      setCurrentIndex(0);
+      setSelected(null);
+      setSubmitted(false);
+
+      const user = JSON.parse(
+        localStorage.getItem("user")
+      );
+
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      const session =
+        await createExamSession({
+          user_id: user.email,
+          subject:
+            type === "single"
+              ? subject
+              : subjects.join(", "),
+          total_questions:
+            response.quiz.length,
+        });
+
+      setSessionId(session.session_id);
+
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        "Failed to load exam. Please try again."
+      );
+
+      setLoading(false);
+    }
+  }, [navigate, subject, subjects, type]);
+
+  // -----------------------------
+  // Initial Load
+  // -----------------------------
+  useEffect(() => {
+    loadExam();
+  }, [loadExam]);
+
+  // -----------------------------
+  // Timer
+  // -----------------------------
+  useEffect(() => {
+    if (loading) return;
+
+    if (timeLeft <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [loading, timeLeft]);
+
+  // -----------------------------
+  // Auto Finish When Time Ends
+  // -----------------------------
+  useEffect(() => {
+    if (!loading && timeLeft === 0) {
+      handleFinishExam();
+    }
+  }, [timeLeft, loading]);
+
+  // -----------------------------
+  // Previous Question
+  // -----------------------------
+  const previousQuestion = () => {
+    if (currentIndex === 0) return;
+
+    loadQuestion(currentIndex - 1);
+  };
+
+  // -----------------------------
+  // Next Question
+  // -----------------------------
+  const nextQuestion = () => {
+    if (currentIndex >= quiz.length - 1) return;
+
+    loadQuestion(currentIndex + 1);
+  };
+
+  // -----------------------------
+  // Skip Question
+  // -----------------------------
+  const skipQuestion = () => {
+    nextQuestion();
+  };
+
+  // -----------------------------
+  // Jump to Question
+  // -----------------------------
+  const jumpQuestion = (index) => {
+    if (index < 0 || index >= quiz.length) return;
+
+    loadQuestion(index);
+  };
+
+  // -----------------------------
+  // Flag / Unflag Question
+  // -----------------------------
+  const flagQuestion = () => {
+    const questionNumber = currentIndex + 1;
+
+    setFlaggedQuestions((prev) => {
+      if (prev.includes(questionNumber)) {
+        return prev.filter((q) => q !== questionNumber);
+      }
+
+      return [...prev, questionNumber];
     });
-    setSubmitted(false);
-    setIsCorrect(null);
-    setSelected(null);
+  };
+
+  // -----------------------------
+  // Submit Answer
+  // -----------------------------
+  const submitAnswer = async () => {
+    if (!currentQuestion) return;
+
+    if (selected === null) {
+      alert("Please select an answer.");
+      return;
+    }
+
+    try {
+      const isCorrect =
+        selected === currentQuestion.correct_option;
+
+      await saveAnswer({
+        session_id: sessionId,
+        question_id: currentQuestion.id,
+        selected_answer:
+          currentQuestion.options[selected],
+        is_correct: isCorrect,
+      });
+
+      if (isCorrect) {
+        setScore((prev) => prev + 1);
+      }
+
+      setAnsweredQuestions((prev) => {
+        const questionNumber = currentIndex + 1;
+
+        if (prev.includes(questionNumber)) {
+          return prev;
+        }
+
+        return [...prev, questionNumber];
+      });
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      alert("Unable to save your answer.");
+    }
+  };
+
+  // -----------------------------
+  // Finish Exam
+  // -----------------------------
+  const handleFinishExam = async () => {
+    try {
+      if (!sessionId) return;
+
+      await finishExam({
+        session_id: sessionId,
+        score,
+        total_questions: quiz.length,
+      });
+
+      navigate("/exam-result", {
+        state: {
+          sessionId,
+          score,
+          totalQuestions: quiz.length,
+          answeredQuestions,
+          flaggedQuestions,
+          timeTaken: 30 * 60 - timeLeft,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Unable to finish exam.");
+    }
+  };
+
+  // -----------------------------
+  // Loading Screen
+  // -----------------------------
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <h2>Loading Exam...</h2>
+      </div>
+    );
   }
-}}
-            >
-                Next Question <ChevronRight size={16} />
-              </button>
-             )}
-            </div>
-          </div>
+
+  // -----------------------------
+  // Error Screen
+  // -----------------------------
+  if (error) {
+    return (
+      <div className="loading-screen">
+        <h2>{error}</h2>
+
+        <button
+          className="retry-btn"
+          onClick={loadExam}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  // -----------------------------
+  // Render
+  // -----------------------------
+  return (
+    <div className="app-shell">
+      <Sidebar />
+
+      <main className="app-main">
+        <ExamHeader
+          examType={type}
+          subject={
+            type === "single"
+              ? subject
+              : subjects.join(", ")
+          }
+          currentQuestion={currentIndex + 1}
+          totalQuestions={quiz.length}
+          score={score}
+        />
+
+        <ExamTimer
+          timeLeft={timeLeft}
+        />
+
+        <div className="exam-layout">
+          <QuestionNavigator
+            totalQuestions={quiz.length}
+            currentIndex={currentIndex}
+            answeredQuestions={answeredQuestions}
+            flaggedQuestions={flaggedQuestions}
+            onJump={jumpQuestion}
+          />
+
+          <QuestionCard
+            question={currentQuestion}
+            questionNumber={currentIndex + 1}
+            totalQuestions={quiz.length}
+            selected={selected}
+            submitted={submitted}
+            onSelect={setSelected}
+          />
         </div>
+
+        <ExamControls
+          currentIndex={currentIndex}
+          totalQuestions={quiz.length}
+          submitted={submitted}
+          onPrevious={previousQuestion}
+          onNext={nextQuestion}
+          onSkip={skipQuestion}
+          onFlag={flagQuestion}
+          onSubmit={submitAnswer}
+          onFinish={handleFinishExam}
+        />
       </main>
-      <FloatingAIBot subject={subject} />
+
+      {currentQuestion && (
+        <FloatingAIBot
+          subject={currentQuestion.subject}
+        />
+      )}
     </div>
-    <Footer/>
-    </>
   );
 }
+
+

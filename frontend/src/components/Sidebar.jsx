@@ -123,7 +123,7 @@ const handleLogout = () => {
         <NavLink to="/course">
           <BookOpen size={17} /> Modules
         </NavLink>
-        <NavLink to="/exam">
+        <NavLink to="/moodletest">
           <ClipboardList size={17} /> Assignments/Moodle Test
         </NavLink>
         
