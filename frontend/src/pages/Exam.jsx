@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
@@ -29,7 +29,7 @@ export default function Exam() {
     subject = "",
     subjects = [],
   } = state || {};
-
+console.log("Exam Render");
   // -----------------------------
   // States
   // -----------------------------
@@ -48,6 +48,7 @@ export default function Exam() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const hasLoaded = useRef(false);
 
   // 30 Minutes
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -56,27 +57,38 @@ export default function Exam() {
   // Current Question
   // -----------------------------
   const currentQuestion =
-    quiz[currentIndex] || null;
+  currentIndex >= 0 &&
+  currentIndex < quiz.length
+    ? quiz[currentIndex]
+    : null;
 
   // -----------------------------
   // Load Question
   // -----------------------------
-  const loadQuestion = useCallback(
+  const loadQuestion = 
     (index) => {
-      if (index < 0 || index >= quiz.length) return;
+      if (index === undefined ||
+        index === null ||
+        index < 0 ||
+        index >= quiz.length) return;
 
       setCurrentIndex(index);
       setSelected(null);
       setSubmitted(false);
-    },
-    [quiz]
-  );
-
+    };
+useEffect(() => {
+    console.log("Quiz updated:", quiz.length);
+    if (quiz.length > 0) {
+        console.log("First question id:", quiz[0].id);
+    }
+}, [quiz]);
   // -----------------------------
   // Load Exam
   // -----------------------------
-  const loadExam = useCallback(async () => {
+  
+  const loadExam = async () => {
     try {
+          console.log("loadExam called");
       setLoading(true);
       setError("");
 
@@ -97,9 +109,12 @@ export default function Exam() {
         setLoading(false);
         return;
       }
+console.log("Before setQuiz", response.quiz[0].id);
 
       setQuiz(response.quiz);
-
+      console.log(response.quiz);
+      console.log("length",response.quiz.length);
+      
       setCurrentIndex(0);
       setSelected(null);
       setSubmitted(false);
@@ -134,17 +149,26 @@ export default function Exam() {
         "Failed to load exam. Please try again."
       );
 
+    }
+    finally{
       setLoading(false);
     }
-  }, [navigate, subject, subjects, type]);
-
+  };
+      
   // -----------------------------
   // Initial Load
   // -----------------------------
   useEffect(() => {
+        console.log("useEffect executed");
+      if (hasLoaded.current) return;
+      hasLoaded.current = true;
     loadExam();
-  }, [loadExam]);
-
+  }, []);
+// useEffect(() => {
+//         console.log("useEffect executed");
+// 
+//     loadQuestion();
+//   }, [quiz]);
   // -----------------------------
   // Timer
   // -----------------------------
@@ -277,6 +301,7 @@ export default function Exam() {
 
       navigate("/exam-result", {
         state: {
+          subject,
           sessionId,
           score,
           totalQuestions: quiz.length,
@@ -294,13 +319,13 @@ export default function Exam() {
   // -----------------------------
   // Loading Screen
   // -----------------------------
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <h2>Loading Exam...</h2>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loading-screen">
+  //       <h2>Loading Exam...</h2>
+  //     </div>
+  //   );
+  // }
 
   // -----------------------------
   // Error Screen
@@ -324,10 +349,11 @@ export default function Exam() {
   // Render
   // -----------------------------
   return (
-    <div className="app-shell">
-      <Sidebar />
+    <div className="exam-page">
+      {/* <Sidebar /> */}
 
-      <main className="app-main">
+      <main className="exam-main">
+        <div className="exam-top">
         <ExamHeader
           examType={type}
           subject={
@@ -343,7 +369,7 @@ export default function Exam() {
         <ExamTimer
           timeLeft={timeLeft}
         />
-
+    </div>
         <div className="exam-layout">
           <QuestionNavigator
             totalQuestions={quiz.length}
@@ -376,11 +402,11 @@ export default function Exam() {
         />
       </main>
 
-      {currentQuestion && (
+{currentQuestion && (
         <FloatingAIBot
           subject={currentQuestion.subject}
         />
-      )}
+      )} 
     </div>
   );
 }

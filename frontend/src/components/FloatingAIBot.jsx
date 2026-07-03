@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "./FloatingAIBot.css";
-
 export default function FloatingAIBot({ subject = null }) {
   const navigate = useNavigate();
   console.log(subject);

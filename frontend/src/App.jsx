@@ -13,6 +13,8 @@ import ChatBoard from "./pages/Chatboard.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Profile from "./pages/Profile.jsx";
 import MoodleTest from "./pages/MoodleTest.jsx";
+import ExamResult from "./pages/ExamResult.jsx";
+import ExamReview from "./pages/ReviewAnswers.jsx";
 
 export default function App() {
   return (
@@ -31,8 +33,11 @@ export default function App() {
       <Route path="/interview" element={<MockInterview />} />
       <Route path="/exam" element={<Exam />} />
       <Route path="/moodletest" element={<MoodleTest />} />
+      <Route path="/exam-result" element={<ExamResult />} />
+      <Route path="/review-exam" element={<ExamReview />} />
 
-      <Route path="/chat" element={<ChatBoard />} />
+{/* review-exam */}
+       <Route path="/chat" element={<ChatBoard />} />
       <Route path="*" element={<Landing />} />
     </Routes>
   );

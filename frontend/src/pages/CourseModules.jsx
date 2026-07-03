@@ -1,5 +1,7 @@
 import Sidebar from "../components/Sidebar.jsx";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import {
   Database,
   Box,
@@ -22,6 +24,8 @@ const INSTRUCTOR =
   "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&h=120&fit=crop&crop=faces";
 
 export default function CourseModules() {
+const navigate = useNavigate();
+
   const [profession,setProfession] =
 useState("");
   const [subjects,setSubjects] =
@@ -402,6 +406,23 @@ onMouseUp={async (e) => {
                 </div>
           {/* Right rail */}
         </div>
+        <div className="page-navigation">
+
+    <button
+        className="nav-btn previous-btn"
+        onClick={() => navigate("/library")}
+    >
+        ← Previous
+    </button>
+
+    <button
+        className="nav-btn next-btn"
+        onClick={() => navigate("/moodletest")}
+    >
+        Next →
+    </button>
+
+</div>
       </main>
       <FloatingAIBot />
     </div>

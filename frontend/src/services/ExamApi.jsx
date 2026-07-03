@@ -3,7 +3,10 @@ const BASE_URL = "http://127.0.0.1:8000";
 export const getQuestions = async (subject) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/question/${subject}`
+      `${BASE_URL}/question/${subject}`,
+      { 
+         method: "POST"
+        }
     );
 
     if (!response.ok) {
@@ -89,12 +92,7 @@ async (subjects) => {
 
 export const saveAnswer =
 async (
-
-session_id,
-
-question_id,
-
-selected_answer
+data
 
 )=>{
 
@@ -114,15 +112,7 @@ headers:{
 
 },
 
-body:JSON.stringify({
-
-session_id,
-
-question_id,
-
-selected_answer
-
-})
+body:JSON.stringify(data)
 
 }
 
@@ -135,7 +125,7 @@ return await response.json();
 export const finishExam =
 async (
 
-session_id
+data
 
 )=>{
 
@@ -157,7 +147,7 @@ headers:{
 
 body:JSON.stringify({
 
-session_id
+data
 
 })
 
@@ -224,5 +214,17 @@ body:JSON.stringify(data)
 );
 
 return await res.json();
+
+};
+
+export const getReviewExam = async(session_id)=>{
+
+    const res = await fetch(
+
+        `${BASE_URL}/exam/review/${session_id}`
+
+    );
+
+    return await res.json();
 
 };

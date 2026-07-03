@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from database.database import get_db
 from models.Exam_table import ExamQuestion
 from sqlalchemy import desc
+from fastapi import HTTPException
+import random
 from models.Exam_table import (
     ExamQuestion,
     ExamSession,
@@ -27,64 +29,118 @@ from models.Exam_table import ExamSession
 
 router=APIRouter()
 
-@router.get("/question/{topic}")
-def specefic_question(topic:str,
-            db: Session = Depends(get_db)
-                      ):
-    topic=topic
-    result=question(topic=topic)
-    for item in result.quiz:
-        db.add(
 
-            ExamQuestion(
+@router.post("/question/{topic}")
+def get_single_exam(
+        topic: str,
+    db: Session = Depends(get_db)
+):
+    
+    try:
+        # Step 1 : Check database
+        db_questions = (
+        db.query(ExamQuestion)
+        .filter(ExamQuestion.subject == topic)
+        .all()
+    )
 
-                subject=topic,
+    # Step 2 : If enough questions already exist
+        if len(db_questions) >= 20:
 
-                question=item.question,
+            selected = random.sample(db_questions, 20)
 
-                option_a=item.options[0],
+            return {
+            "source": "database",
+            "quiz": [
+                {
+                    "id": q.id,
+                    "subject": q.subject,
+                    "question": q.question,
+                    "options": [
+                        q.option_a,
+                        q.option_b,
+                        q.option_c,
+                        q.option_d
+                    ],
+                "answer":q.answer,
+                "correct_option": [
+                q.option_a,
+                q.option_b,
+                q.option_c,
+                q.option_d
+            ].index(q.answer)
+                }
+                for q in selected
+            ]
+        }
 
-                option_b=item.options[1],
+    # Step 3 : Generate using LLM
+        result = question(topic=topic)
 
-                option_c=item.options[2],
+        generated_questions = []
 
-                option_d=item.options[3],
+        for item in result.quiz:
 
-                answer=item.options[
-                    item.correct_option
-                ],
-
-                difficulty="Medium",
-
-                generated_by="LLM"
-
-            )
-
+            exam = ExamQuestion(
+            subject=topic,
+            question=item.question,
+            option_a=item.options[0],
+            option_b=item.options[1],
+            option_c=item.options[2],
+            option_d=item.options[3],
+            answer=item.options[item.correct_option],
+            difficulty="Medium",
+            generated_by="Gemini"
         )
 
-    db.commit()
+            db.add(exam)
+            generated_questions.append(exam)
 
-    quiz = []
+        db.commit()
 
-    for item in result.quiz:
+    # Refresh to get IDs
+        for q in generated_questions:
+            db.refresh(q)
 
-        quiz.append({
+    # Fetch all questions again
+        all_questions = (
+        db.query(ExamQuestion)
+        .filter(ExamQuestion.subject == topic)
+        .all()
+    )
 
-            "subject": topic,
+        selected = random.sample(
+        all_questions,
+        min(20, len(all_questions))
+    )
 
-            "question": item.question,
-
-            "options": item.options,
-
-            "correct_option": item.correct_option
-
-        })
-
-    return {
-
-        "quiz": quiz
-
+        return {
+        "source": "generated",
+        "quiz": [
+            {
+                "id": q.id,
+                "subject": q.subject,
+                "question": q.question,
+                "options": [
+                    q.option_a,
+                    q.option_b,
+                    q.option_c,
+                    q.option_d
+                ],
+                "answer":q.answer,
+                "correct_option": [
+                q.option_a,
+                q.option_b,
+                q.option_c,
+                q.option_d
+            ].index(q.answer)
+            }
+            for q in selected
+        ]
     }
+    except Exception as e:
+        print("ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
     
 @router.post("/exam/questions")
 def get_multiple_exam(
@@ -340,3 +396,112 @@ def finish_session(
 
     }
   
+@router.get("/exam/review/{session_id}")
+def review_exam(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    # Check session exists
+    session = (
+        db.query(ExamSession)
+        .filter(ExamSession.id == session_id)
+        .first()
+    )
+    print("it is checking",session)
+    if session is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Exam session not found"
+        )
+
+    # Get all submitted answers
+    answers = (
+        db.query(ExamAnswer)
+        .filter(
+            ExamAnswer.session_id == session_id
+        )
+        .all()
+    )
+    print(answers)
+    review = []
+
+    for ans in answers:
+
+        question = (
+            db.query(ExamQuestion)
+            .filter(
+                ExamQuestion.id == ans.question_id
+            )
+            .first()
+        )
+
+        if question is None:
+            continue
+
+        review.append({
+
+            "question_id": question.id,
+
+            "subject": question.subject,
+
+            "question": question.question,
+
+            "difficulty": question.difficulty,
+
+            "options": [
+
+                question.option_a,
+                question.option_b,
+                question.option_c,
+                question.option_d
+
+            ],
+
+            "selected_answer": ans.selected_answer,
+
+            "correct_answer": question.answer,
+
+            "correct_option": [
+
+                question.option_a,
+                question.option_b,
+                question.option_c,
+                question.option_d
+
+            ].index(question.answer),
+
+            "selected_option": [
+
+                question.option_a,
+                question.option_b,
+                question.option_c,
+                question.option_d
+
+            ].index(ans.selected_answer)
+            if ans.selected_answer in [
+
+                question.option_a,
+                question.option_b,
+                question.option_c,
+                question.option_d
+
+            ] else None,
+
+            "is_correct": bool(ans.is_correct)
+
+        })
+    print("hi",review)
+    return {
+
+        "session_id": session_id,
+
+        "subject": session.subject,
+
+        "score": session.score,
+
+        "total_questions": session.total_questions,
+
+        "questions": review
+
+    }

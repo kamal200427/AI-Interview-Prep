@@ -655,3 +655,36 @@
   font-size:14px;
   font-weight:600;
 }
+.chat-back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 20px;
+
+    background:#2563eb;
+    color:#fff;
+
+    border:none;
+    border-radius:10px;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.25s;
+}
+
+.chat-back-btn:hover{
+    background:#1d4ed8;
+}
+
+.chat-back-btn:active{
+    transform:scale(.97);
+}
+
+.chat-back-btn svg{
+    width:18px;
+    height:18px;
+}

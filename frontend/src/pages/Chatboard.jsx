@@ -5,7 +5,8 @@ import {
   askPlatformQuestion,
   askSubjectQuestion
 } from "../services/ChatApi";
-
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import {
   Bot,
   Send,
@@ -25,6 +26,7 @@ import { useRef, useState } from "react";
 
 export default function ChatBoard() {
 const location = useLocation();
+const navigate = useNavigate();
 
 const chatType =location.state?.type || "platform";
 const subject = location.state?.subject || "";
@@ -394,6 +396,17 @@ const stopListening = () => {
         </div>
 
       </div>
+     <div className="chat-footer">
+
+    <button
+        className="chat-back-btn"
+        onClick={() => navigate(-1)}
+    >
+        <ArrowLeft size={18}/>
+        Back
+    </button>
+
+</div>
 
     </div>
   );

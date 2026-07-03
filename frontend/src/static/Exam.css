@@ -216,3 +216,91 @@ gap:20px;
 margin-top:30px;
 
 }
+.exam-page{
+    width:100%;
+    min-height:100vh;
+    background:#0f172a;
+}
+
+.exam-main{
+    width:100%;
+    max-width:1700px;
+    margin:auto;
+    padding:25px 35px;
+}
+.exam-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+.exam-layout{
+
+    display:grid;
+
+    grid-template-columns:260px 1fr;
+
+    gap:30px;
+
+    align-items:start;
+
+}
+.question-nav{
+
+    position:sticky;
+
+    top:20px;
+
+}
+.exam-controls{
+
+    position:sticky;
+
+    bottom:0;
+
+    background:#0f172a;
+
+    padding:18px 0;
+
+    margin-top:25px;
+
+}
+.question-card{
+
+    width:100%;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    background:#111827;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+
+}
+.timer-card{
+
+    min-width:170px;
+
+    height:90px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#111827;
+
+}

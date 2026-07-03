@@ -20,9 +20,12 @@ export default function QuestionCard({
   onSelect
 
 }) {
-
+console.log("QuestionCard render", question?.id);
   if (!question) return null;
-
+  console.log(question);
+  
+  console.log("question answer is",question.answer);
+  
   return (
 
     <div className="question-card">
@@ -153,7 +156,7 @@ export default function QuestionCard({
 
             {
 
-              selected === question.correct_option
+              selected === question.correct_option 
 
               ?
 
@@ -200,12 +203,12 @@ export default function QuestionCard({
             <p>
 
               {
-
-                question.options[
-
-                  question.correct_option
-
-                ]
+                question.answer
+//                 question.options[
+// 
+//                   question.correct_option
+// 
+//                 ]
 
               }
 

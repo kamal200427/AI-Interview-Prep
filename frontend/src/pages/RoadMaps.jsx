@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FloatingAIBot from "../components/FloatingAIBot.jsx";
 import Sidebar from "../components/Sidebar.jsx";
+import { useNavigate } from "react-router-dom";
 import {
   Code2,
   Gauge,
@@ -44,6 +45,7 @@ const professionOptions = [
 ];
 
 export default function Roadmaps() {
+  const navigate = useNavigate();
   const [selectedProfession, setSelectedProfession] =
     useState("");
 
@@ -364,10 +366,27 @@ useEffect(() => {
             </div>
           ))}
         </div>
+          <div className="page-navigation">
 
+    <button
+        className="nav-btn previous-btn"
+        onClick={() => navigate("/dashboard")}
+    >
+        ← Previous
+    </button>
+
+    <button
+        className="nav-btn next-btn"
+        onClick={() => navigate("/library")}
+    >
+        Next →
+    </button>
+
+</div>
       </main>
 
       <FloatingAIBot />
+      
     </div>
   );
 }

@@ -60,7 +60,7 @@ def _get_subject_store():
 
     return vector_store
 
-# 
+#
 
 @lru_cache(maxsize=1)
 def _get_general_store():

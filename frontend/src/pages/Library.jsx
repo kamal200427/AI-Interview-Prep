@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -39,6 +40,7 @@ const filters = {
 };
 
 export default function Library() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
   const [loading, setLoading] =
@@ -528,7 +530,23 @@ const savedQuery =
             )}
           </section>
         </div>
-         
+         <div className="page-navigation">
+
+    <button
+        className="nav-btn previous-btn"
+        onClick={() => navigate("/roadmaps")}
+    >
+        ← Previous
+    </button>
+
+    <button
+        className="nav-btn next-btn"
+        onClick={() => navigate("/course")}
+    >
+        Next →
+    </button>
+
+</div>
       </main>
       <FloatingAIBot />
 

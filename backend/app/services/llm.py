@@ -1,15 +1,14 @@
 from dotenv import load_dotenv
-from langchain_huggingface import HuggingFaceEndpoint,ChatHuggingFace
 import os
 
-load_dotenv()
-huggingface_api=os.getenv("HUGGINGFACE_API_KEY")
-llm = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-3.1-8B-Instruct",
-    huggingfacehub_api_token=huggingface_api,
-    max_new_tokens=3500,
-    temperature=0.7,
-    top_p=0.9
-)
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-model=ChatHuggingFace(llm=llm)
+load_dotenv()
+
+google_api_key = os.getenv("GOOGLE_API_KEY")
+
+model = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=google_api_key,
+    temperature=0.7,
+)
