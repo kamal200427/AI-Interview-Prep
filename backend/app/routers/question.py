@@ -6,6 +6,8 @@ import json
 from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
 from database.database import get_db
+from services.notification_service import create_notification
+from schemas.notification_schema import NotificationCreate
 from models.Exam_table import ExamQuestion
 from sqlalchemy import desc
 from fastapi import HTTPException
@@ -21,8 +23,7 @@ from schemas.exam_schema import (
     MultiExamRequest,
     SaveAnswerRequest,
     FinishExamRequest,
-    ExamSessionCreate,
-    ExamSessionFinish
+    ExamSessionCreate
 )
 from datetime import datetime
 from models.Exam_table import ExamSession
@@ -313,11 +314,24 @@ def finish_exam(
         .count()
 
     )
-
+    print(score)
     session.score = score
 
     db.commit()
+    
+    percentage = round((score / session.total_questions) * 100, 2)
 
+    create_notification(
+    db,
+    NotificationCreate(
+        user_id=session.user_id,
+        title=f"{session.subject} Test Completed",
+        message=f"You scored {score}/{session.total_questions} ({percentage}%).",
+        type="exam",
+        icon="📝",
+        route="/exam-result"
+        )
+    )
     return {
 
         "score": score,
@@ -362,39 +376,7 @@ def create_session(
 
     }
 
-@router.put("/exam/session")
-
-def finish_session(
-
-    request:ExamSessionFinish,
-
-    db:Session=Depends(get_db)
-
-):
-
-    session=(
-
-        db.query(ExamSession)
-
-        .filter(
-
-            ExamSession.id==request.session_id
-
-        )
-
-        .first()
-
-    )
-
-    session.score=request.score
-
-    db.commit()
-
-    return{
-
-        "message":"Exam Finished"
-
-    }
+ 
   
 @router.get("/exam/review/{session_id}")
 def review_exam(

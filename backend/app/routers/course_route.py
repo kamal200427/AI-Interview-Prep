@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from database.database import get_db
 from schemas.course_schema import CompletionUpdate
 from models.resource import Resource
+from services.notification_service import create_notification
+from schemas.notification_schema import NotificationCreate
 
 router=APIRouter()
 @router.get(
@@ -77,7 +79,19 @@ def update_completion(
     resource.completion = (
         request.completion
     )
+    if request.completion == 100:
 
+        create_notification(
+        db,
+        NotificationCreate(
+            user_id=request.user_id,
+            title="Course Completed",
+            message=f"You completed {resource.subject}.",
+            type="course",
+            icon="📘",
+            route="/course"
+        )
+    )
     db.commit()
 
     return {
@@ -108,7 +122,17 @@ def complete_subject(
         resource.completion = 100
 
     db.commit()
-
+    create_notification(
+    db,
+    NotificationCreate(
+        user_id=user_id,
+        title="Subject Completed",
+        message=f"You completed {subject}.",
+        type="course",
+        icon="🎓",
+        route="/course"
+    )
+)
     return {
         "message":
         "Subject Completed"

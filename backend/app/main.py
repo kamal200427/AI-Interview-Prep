@@ -12,6 +12,8 @@ from routers.search_resource import router as search_router
 from routers.resource_route import router as resource_router
 from routers.roadmap import router as roadmap_router
 from routers.course_route import router as course_router
+from routers.exam_result import router as examresult_router
+from routers.notification_route import router as notification_router
 app=FastAPI()
 Base.metadata.create_all(bind=engine)
  
@@ -23,11 +25,19 @@ router_list=[question_router,
              search_router,
              resource_router,
              roadmap_router,
-             course_router]
+             course_router,
+             examresult_router,
+             notification_router]
 
 for router in router_list:
     app.include_router(router)
 
+print("\n========== REGISTERED ROUTES ==========")
+
+for route in app.routes:
+    print(route.path)
+
+print("=======================================\n")
 # Allow React to access FastAPI
 app.add_middleware(
     CORSMiddleware,

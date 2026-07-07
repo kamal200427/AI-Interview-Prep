@@ -8,7 +8,7 @@ import { getUser, updateUser } from "../services/SignInApi";
 import "../static/Profile.css";
 
 export default function Profile() {
-
+const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
 
   const [profile, setProfile] =

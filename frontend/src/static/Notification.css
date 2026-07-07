@@ -1,0 +1,821 @@
+/* ==========================================
+   Notification Header
+========================================== */
+
+.notification-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+}
+
+.notification-title-wrapper{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.notification-header-icon{
+
+    color:#2563eb;
+}
+
+.notification-title{
+
+    margin:0;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#1e293b;
+}
+
+.notification-subtitle{
+
+    margin-top:5px;
+
+    color:#64748b;
+
+    font-size:15px;
+}
+
+.mark-all-read-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.mark-all-read-btn:hover{
+
+    background:#1d4ed8;
+}
+
+.mark-all-read-btn:disabled{
+
+    background:#cbd5e1;
+
+    cursor:not-allowed;
+}
+/* ==========================================
+   Notification Tabs
+========================================== */
+
+.notification-tabs{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:25px;
+
+    flex-wrap:wrap;
+}
+
+.notification-tab{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 18px;
+
+    border:1px solid #e2e8f0;
+
+    background:white;
+
+    border-radius:999px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#475569;
+}
+
+.notification-tab:hover{
+
+    background:#f8fafc;
+}
+
+.notification-tab.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-color:#2563eb;
+}
+
+.notification-tab span{
+
+    min-width:24px;
+
+    height:24px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.25);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+.notification-tab:not(.active) span{
+
+    background:#e2e8f0;
+
+    color:#334155;
+}
+/* ==========================================
+   Notification Card
+========================================== */
+
+.notification-card{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    padding:18px;
+
+    margin-bottom:16px;
+
+    border-radius:14px;
+
+    border:1px solid #e2e8f0;
+
+    background:white;
+
+    transition:.25s;
+
+    cursor:pointer;
+}
+
+.notification-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+/* Unread */
+
+.notification-card.unread{
+
+    background:#eff6ff;
+
+    border-left:5px solid #2563eb;
+}
+
+.notification-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+.notification-content{
+
+    flex:1;
+}
+
+.notification-content h3{
+
+    margin:0;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:#1e293b;
+}
+
+.notification-content p{
+
+    margin:8px 0;
+
+    color:#64748b;
+
+    line-height:1.5;
+}
+
+.notification-time{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    font-size:13px;
+
+    color:#94a3b8;
+}
+
+.notification-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:12px;
+}
+
+.mark-read-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    border:none;
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.mark-read-btn:hover{
+
+    background:#1d4ed8;
+}
+
+.notification-arrow{
+
+    color:#94a3b8;
+}
+/* =====================================================
+   Empty Notification
+===================================================== */
+
+.empty-notification{
+
+    background:white;
+    width: 100%;
+    border-radius:18px;
+
+    padding:80px 40px;
+
+    text-align:center;
+
+    border:1px solid #e2e8f0;
+}
+
+.empty-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 20px;
+
+    margin-bottom:25px;
+
+    border-radius:50%;
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.empty-notification h2{
+
+    margin:0;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#1e293b;
+}
+
+.empty-notification p{
+
+    margin-top:15px;
+
+    color:#64748b;
+
+    font-size:16px;
+
+    line-height:1.7;
+
+    max-width:500px;
+
+    margin-left:auto;
+
+    margin-right:auto;
+}
+
+.empty-tips{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+    margin-top:40px;
+}
+
+.empty-tip{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 18px;
+
+    background:#f8fafc;
+
+    border-radius:10px;
+
+    color:#334155;
+
+    font-weight:600;
+
+    border:1px solid #e2e8f0;
+}
+/* =====================================================
+   NOTIFICATION PAGE
+===================================================== */
+
+.notification-page{
+    width:100%;
+    min-height:100vh;
+    padding:30px;
+    box-sizing:border-box;
+}
+
+.notification-loading{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:300px;
+    font-size:18px;
+    color:#64748b;
+    font-weight:600;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.notification-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.notification-title-wrapper{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.notification-header-icon{
+    color:#2563eb;
+}
+
+.notification-title{
+    margin:0;
+    font-size:30px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.notification-subtitle{
+    margin-top:5px;
+    font-size:15px;
+    color:#64748b;
+}
+
+/* =====================================================
+   MARK ALL BUTTON
+===================================================== */
+
+.mark-all-read-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.mark-all-read-btn:hover{
+    background:#1d4ed8;
+}
+
+.mark-all-read-btn:disabled{
+    background:#cbd5e1;
+    cursor:not-allowed;
+}
+
+/* =====================================================
+   FILTER TABS
+===================================================== */
+
+.notification-tabs{
+    display:flex;
+    gap:12px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.notification-tab{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    background:white;
+    cursor:pointer;
+    transition:.25s;
+    font-weight:600;
+    color:#475569;
+}
+
+.notification-tab:hover{
+    background:#f1f5f9;
+}
+
+.notification-tab.active{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+.notification-tab span{
+    min-width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#e2e8f0;
+    color:#334155;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:12px;
+    font-weight:700;
+}
+
+.notification-tab.active span{
+    background:rgba(255,255,255,.25);
+    color:white;
+}
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.notification-group-title{
+    margin:25px 0 15px;
+    font-size:18px;
+    font-weight:700;
+    color:#334155;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.notification-card{
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+    transition:.25s;
+    cursor:pointer;
+}
+
+.notification-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+
+/* =====================================================
+   UNREAD
+===================================================== */
+
+.notification-card.unread{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+}
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.notification-icon{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.notification-content{
+    flex:1;
+}
+
+.notification-content h3{
+    margin:0;
+    font-size:17px;
+    color:#1e293b;
+    font-weight:700;
+}
+
+.notification-content p{
+    margin:8px 0;
+    color:#64748b;
+    line-height:1.6;
+}
+
+.notification-time{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    color:#94a3b8;
+}
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.notification-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
+}
+
+.mark-read-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.mark-read-btn:hover{
+    background:#1d4ed8;
+}
+
+.notification-arrow{
+    color:#94a3b8;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.empty-notification{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:70px 30px;
+    text-align:center;
+}
+
+.empty-icon{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:#eff6ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0 auto 25px;
+    color:#2563eb;
+}
+
+.empty-notification h2{
+    margin:0;
+    color:#1e293b;
+    font-size:28px;
+}
+
+.empty-notification p{
+    max-width:500px;
+    margin:15px auto;
+    color:#64748b;
+    line-height:1.7;
+}
+
+.empty-tips{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-top:35px;
+}
+
+.empty-tip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    border-radius:10px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    font-weight:600;
+    color:#334155;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:768px){
+
+.notification-page{
+    padding:20px;
+}
+
+.notification-header{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.notification-card{
+    flex-direction:column;
+}
+
+.notification-actions{
+    width:100%;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.notification-tabs{
+    overflow-x:auto;
+    padding-bottom:5px;
+}
+
+.empty-tips{
+    flex-direction:column;
+}
+
+}
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+.dark .notification-page{
+    background:#0f172a;
+}
+
+.dark .notification-title,
+.dark .notification-group-title,
+.dark .notification-content h3{
+    color:#f8fafc;
+}
+
+.dark .notification-subtitle,
+.dark .notification-content p,
+.dark .notification-time{
+    color:#cbd5e1;
+}
+
+.dark .notification-card{
+    background:#1e293b;
+    border-color:#334155;
+}
+
+.dark .notification-card.unread{
+    background:#172554;
+}
+
+.dark .notification-tab{
+    background:#1e293b;
+    border-color:#334155;
+    color:#e2e8f0;
+}
+
+.dark .empty-notification{
+    background:#1e293b;
+    border-color:#334155;
+}
+
+.dark .empty-tip{
+    background:#0f172a;
+    border-color:#334155;
+    color:#f8fafc;
+}

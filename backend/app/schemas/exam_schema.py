@@ -34,10 +34,3 @@ class ExamSessionCreate(BaseModel):
     subject:str
 
     total_questions:int
-
-
-class ExamSessionFinish(BaseModel):
-
-    session_id:int
-
-    score:int

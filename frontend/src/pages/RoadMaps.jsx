@@ -56,7 +56,7 @@ export default function Roadmaps() {
     useState(false);
 
   const [nodes, setNodes] = useState([]);
-
+const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const generateRoadmap = async (
     profession
@@ -219,7 +219,7 @@ useEffect(() => {
 }, []);
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar sidebarOpen={sidebarOpen} />
 
       <main className="app-main">
         <h1 className="page-title">

@@ -1,0 +1,274 @@
+/* ========================================
+   Reusable Dashboard Card
+======================================== */
+
+.dashboard-card {
+    background: #161b22;
+    border: 1px solid #2d3748;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    transition: all .3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    background: #1d2430;
+    border-color: #3b82f6;
+    box-shadow: 0 20px 45px rgba(0,0,0,.45);
+}
+
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.dashboard-card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dashboard-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    color: #fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    box-shadow:0 10px 25px rgba(59,130,246,.35);
+}
+
+.dashboard-card-title {
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+    color:#f8fafc;
+}
+
+.dashboard-card-subtitle {
+    margin-top:5px;
+    font-size:14px;
+    color:#94a3b8;
+}
+
+.dashboard-card-action {
+    display:flex;
+    align-items:center;
+}
+
+.dashboard-card-body {
+    width:100%;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    border:none;
+    outline:none;
+    cursor:pointer;
+
+    border-radius:12px;
+
+    font-size:15px;
+    font-weight:600;
+
+    transition:.3s;
+    text-decoration:none;
+}
+
+/* Sizes */
+
+.btn-small{
+    padding:8px 14px;
+    font-size:13px;
+}
+
+.btn-medium{
+    padding:12px 20px;
+    font-size:14px;
+}
+
+.btn-large{
+    padding:15px 26px;
+    font-size:16px;
+}
+
+/* Primary */
+
+.btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 30px rgba(59,130,246,.45);
+}
+
+/* Secondary */
+
+.btn-secondary{
+
+    background:#1f2937;
+
+    color:#f8fafc;
+
+    border:1px solid #374151;
+}
+
+.btn-secondary:hover{
+
+    background:#273449;
+
+    border-color:#4b5563;
+}
+
+/* Outline */
+
+.btn-outline{
+
+    background:transparent;
+
+    border:1px solid #3b82f6;
+
+    color:#60a5fa;
+}
+
+.btn-outline:hover{
+
+    background:#2563eb;
+
+    color:#fff;
+}
+
+/* Success */
+
+.btn-success{
+
+    background:#16a34a;
+
+    color:#fff;
+}
+
+.btn-success:hover{
+
+    background:#15803d;
+}
+
+/* Danger */
+
+.btn-danger{
+
+    background:#dc2626;
+
+    color:#fff;
+}
+
+.btn-danger:hover{
+
+    background:#b91c1c;
+}
+
+/* Disabled */
+
+.btn:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
+/* Icon */
+
+.btn-icon{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:18px;
+}
+
+/* ==========================================
+   Progress Bar
+========================================== */
+
+.progress-item{
+
+    width:100%;
+
+    margin-bottom:20px;
+}
+
+.progress-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.progress-label{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#f1f5f9;
+}
+
+.progress-value{
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#cbd5e1;
+}
+
+.progress-track{
+
+    width:100%;
+
+    height:8px;
+
+    background:#2d3748;
+
+    border-radius:999px;
+
+    overflow:hidden;
+}
+
+.progress-fill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    transition:width .8s ease;
+
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+}

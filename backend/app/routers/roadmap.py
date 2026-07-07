@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends
-
+from services.notification_service import create_notification
+from schemas.notification_schema import NotificationCreate
 from sqlalchemy.orm import Session
 
 from database.database import get_db
@@ -29,6 +30,17 @@ def road_map(
         role=request.profession,
         db=db
     )
+    create_notification(
+    db,
+    NotificationCreate(
+        user_id=request.email,
+        title="Roadmap Created",
+        message=f"{request.profession} roadmap has been generated successfully.",
+        type="roadmap",
+        icon="🗺️",
+        route="/roadmap"
+    )
+)
 
     return roadmap
 

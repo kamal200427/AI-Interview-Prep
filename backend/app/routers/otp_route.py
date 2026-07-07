@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from database.database import SessionLocal
 from services.email_service import send_email_otp
 from models.Otp_model import OTP
+from models.user_model import UserDB
 
 import random
 
@@ -15,6 +16,23 @@ def send_otp(data: dict):
     db: Session = SessionLocal()
 
     email = data["email"]
+    # ------------------------------------------------
+    # Check whether the user is registered
+    # ------------------------------------------------
+    user = (
+        db.query(UserDB)
+        .filter(UserDB.email == email)
+        .first()
+    )
+
+    if not user:
+        db.close()
+
+        return {
+            "success": False,
+            "message": "User is not registered. Please sign up first."
+        }
+
 
     otp = str(
         random.randint(

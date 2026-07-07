@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { saveUser } from "../services/SignInApi";
+import Logo from "../components/Logo";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -66,13 +67,10 @@ export default function SignUp() {
 
         <Link
           to="/"
-          className="brand"
+          
           style={{ marginBottom: 36 }}
         >
-          <span className="brand-mark">
-            <Zap size={17} />
-          </span>
-          LearnPro
+          <Logo/>
         </Link>
 
         <h1>

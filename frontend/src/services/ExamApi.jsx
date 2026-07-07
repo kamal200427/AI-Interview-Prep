@@ -124,9 +124,7 @@ return await response.json();
 
 export const finishExam =
 async (
-
-data
-
+sessionId
 )=>{
 
 const response =
@@ -147,7 +145,7 @@ headers:{
 
 body:JSON.stringify({
 
-data
+ session_id: sessionId
 
 })
 

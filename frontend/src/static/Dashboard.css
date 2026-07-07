@@ -1,0 +1,172 @@
+/* ===========================================
+   DASHBOARD LAYOUT
+===========================================*/
+
+.app-sh{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#f4f7fb;
+
+}
+
+.app-m{
+
+    flex:1;
+
+    padding:30px;
+
+    overflow-y:auto;
+
+}
+
+/* Main Container */
+
+.dashboard-container{
+
+    max-width:1600px;
+
+    margin:auto;
+
+}
+
+/* Sections */
+
+.dashboard-row{
+
+    display:grid;
+
+    gap:24px;
+
+    margin-top:24px;
+
+}
+
+/* Subject Progress + Recent Activity */
+
+.dashboard-row-two{
+
+    grid-template-columns:2fr 1fr;
+
+}
+
+/* Bottom */
+
+.dashboard-row-three{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:1200px){
+
+.dashboard-row-two{
+
+    grid-template-columns:1fr;
+
+}
+
+.dashboard-row-three{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.app-main{
+
+    padding:18px;
+
+}
+
+.dashboard-row-three{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+.share-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.6);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:999;
+}
+
+.share-modal{
+
+    width:360px;
+
+    background:#111827;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    border:1px solid #334155;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.share-modal h2{
+
+    color:white;
+
+    margin-bottom:10px;
+
+    text-align:center;
+}
+
+.share-modal button{
+
+    height:46px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:#1e293b;
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.share-modal button:hover{
+
+    background:#2563eb;
+}
+
+.close-share{
+
+    margin-top:10px;
+
+    background:#ef4444 !important;
+}

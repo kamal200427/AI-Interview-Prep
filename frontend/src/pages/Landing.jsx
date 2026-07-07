@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Bot
 } from "lucide-react";
+import landingData from "../data/landingData";
 import FloatingAIBot from "../components/FloatingAIBot.jsx";
 
 const HERO =
@@ -76,34 +77,22 @@ const navigate=useNavigate()
         <section className="hero">
           <div className="container hero-grid">
             <div>
-              <span className="eyebrow">AI-Powered Learning</span>
+              <span className="eyebrow">{landingData.hero.badge}</span>
               <h1>
-                Take your time and <br />
-                <span className="accent">learn from anywhere</span>
+                    {landingData.hero.title1}
+                <br />
+                <span className="accent">{landingData.hero.title2}</span>
               </h1>
               <p className="lead">
-                Unlock professional potential with our premium AI-driven platform.
-                Tailored learning paths designed for the ambitious, lifelong learner.
+                {landingData.hero.description}
               </p>
               <div className="hero-actions">
                 <button 
                 onClick={handleGetStarted}
                  className="btn btn-primary btn-lg">
-                  Learn Now <ArrowRight size={17} />
+                  {landingData.hero.primaryButton} <ArrowRight size={17} />
                 </button>
-                <div className="mini-progress">
-                  <span className="dot">
-                    <Play size={15} />
-                  </span>
-                  <div>
-                    <div style={{ fontSize: 12, fontWeight: 600 }}>Resume Learning</div>
-                    <div className="progress pp">
-                      <span style={{ width: "68%" }} />
-                    </div>
-                  </div>
-                  <span style={{ fontSize: 12, color: "var(--green-bright)" }}>68%</span>
                 </div>
-              </div>
             </div>
 
             <div className="hero-visual">
@@ -130,57 +119,91 @@ const navigate=useNavigate()
               <div className="title-underline" />
             </div>
             <div className="grid grid-3">
-              {features.map((f) => (
-                <article key={f.title} className="card card-hover feature-card">
-                  <div className="ft-head">
-                    <span className="icon-box">{f.icon}</span>
-                    <h3>{f.title}</h3>
-                  </div>
-                  <p>{f.desc}</p>
-                  <div className="feature-meta">
-                    <span className="green">{f.meta}</span>
-                    <ChevronRight size={15} />
-                  </div>
-                </article>
-              ))}
+             { landingData.features.map((feature) => {
+
+const Icon = feature.icon;
+
+return (
+
+<article
+key={feature.id}
+className="card card-hover feature-card"
+>
+
+<div className="ft-head">
+
+<span className="icon-box">
+
+<Icon size={22}/>
+
+</span>
+
+<h3>{feature.title}</h3>
+
+</div>
+
+<p>{feature.description}</p>
+
+<div className="feature-meta">
+
+<span className="green">
+{feature.meta}
+</span>
+
+<ChevronRight size={16}/>
+
+</div>
+
+</article>
+
+);
+
+})}
             </div>
           </div>
         </section>
 
         {/* STATS */}
         <section className="container" style={{ paddingBottom: 24 }}>
-          <div className="stat-row">
-            <div className="item">
-              <div className="v">1.2M</div>
-              <div className="k">Active Learners</div>
-            </div>
-            <div className="item">
-              <div className="v">4,500+</div>
-              <div className="k">Courses</div>
-            </div>
-            <div className="item">
-              <div className="v">98%</div>
-              <div className="k">Success Rate</div>
-            </div>
-          </div>
+           <div className="stat-row">
+
+{
+landingData.statistics.map((item)=>(
+<div
+key={item.title}
+className="item"
+>
+
+<div className="v">
+{item.number}
+</div>
+
+<div className="k">
+{item.title}
+</div>
+
+</div>
+))
+}
+
+</div>
         </section>
 
         {/* CTA */}
         <section className="container section">
           <div className="cta-band">
             <div>
-              <h2>Ready to start your journey?</h2>
+              <h2>{landingData.cta.title}</h2>
               <p>
-                Join over 1 million learners and get unlimited access to 4,500+
-                technical courses today.
+                {landingData.cta.description}
               </p>
             </div>
             <div className="actions">
               <Link to="/onboarding" className="btn btn-white btn-lg">
-                Get Started for Free
+                {landingData.cta.primaryButton}
               </Link>
-              <Link to="/courses" className="btn btn-dark btn-lg">
-                Corporate Plans
+              <Link to="/" className="btn btn-dark btn-lg">
+          {landingData.cta.secondaryButton}
               </Link>
             </div>
           </div>

@@ -11,16 +11,17 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 def send_email_otp(receiver_email, otp):
 
-    subject = "LearnPro Login OTP"
+    subject = "SpeechX Login OTP"
 
     body = f"""
-Your LearnPro OTP is:
+Your SpeechX OTP is:
 
 {otp}
 
 This OTP will expire in 5 minutes.
 
 Do not share it with anyone.
+
 Stay safe and stay healthy
 """
 

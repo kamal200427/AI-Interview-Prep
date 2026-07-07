@@ -32,6 +32,7 @@ useState("");
 useState([]);
 const [openSubject, setOpenSubject] =
   useState(null);
+const [sidebarOpen, setSidebarOpen] = useState(true);
 const totalResources =
 subjects.reduce(
 (acc,s) =>
@@ -103,7 +104,7 @@ useEffect(() => {
 }, []);
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar  sidebarOpen={sidebarOpen} />
       <main className="app-main">
         <p className="muted" style={{ fontSize: 14 }}>
           career Path

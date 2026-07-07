@@ -1,7 +1,7 @@
 /* ============================================================
    LearnPro — Dark Mode Design System
    ============================================================ */
- 
+ @import "tailwindcss";
 :root {
   --bg: #0a0e12;
   --bg-soft: #0e1318;
@@ -289,27 +289,10 @@ textarea {
   border-bottom: 1px solid var(--border-soft);
 }
 .nav-inner {
-  height: 64px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-}
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--green-bright), var(--green-dark));
-  display: grid;
-  place-items: center;
-  color: #04150c;
 }
 .nav-links {
   display: flex;
@@ -341,6 +324,53 @@ textarea {
   display: flex;
   align-items: center;
   gap: 14px;
+}
+/* ==========================================
+   Brand Logo
+========================================== */
+
+.brand{
+  height: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-decoration:none;
+    flex-shrink:0;
+}
+
+.brand-logo{
+    height:44px;
+    width:44px;
+    object-fit:contain;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.brand-logo:hover{
+    transform:scale(1.05);
+}
+
+.brand-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.brand-text{
+    font-size:26px;
+    font-weight:800;
+    color:#ffffff;
+    line-height:1;
+    margin:0;
+}
+
+.brand-subtitle{
+    font-size:11px;
+    color:#94a3b8;
+    margin-top:3px;
+    letter-spacing:1px;
+    text-transform:uppercase;
 }
 .icon-btn {
   width: 38px;
@@ -1931,36 +1961,11 @@ textarea {
 
   margin-top:20px;
 }
-.brand {
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
+  
 
-.brand-logo {
-  height: 56px;
-  width: auto;
-  max-width: 220px;
-  object-fit: contain;
-  display: block;
-}
+    
 
-.brand-logo:hover {
-  transform: scale(1.05);
-}
-.brand-text{
-  font-size: 84px;
-  font-weight: 800;
-  color: white;
-  margin-left: 8px;
-}
-.brand-logo{
-  height: 50px;
-  width: auto;
-  background: white;
-  padding: 4px;
-  border-radius: 8px;
-}
+ 
 .sidebar{
   position:fixed;
   left:0;

@@ -128,7 +128,7 @@ const handleLogout = () => {
         </NavLink>
         
         <NavLink to="/interview">
-          <MessagesSquare size={17} /> Discussions
+          <MessagesSquare size={17} /> Interview
         </NavLink>
       </nav>
 

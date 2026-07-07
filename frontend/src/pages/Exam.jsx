@@ -293,11 +293,7 @@ console.log("Before setQuiz", response.quiz[0].id);
     try {
       if (!sessionId) return;
 
-      await finishExam({
-        session_id: sessionId,
-        score,
-        total_questions: quiz.length,
-      });
+      await finishExam(sessionId);
 
       navigate("/exam-result", {
         state: {

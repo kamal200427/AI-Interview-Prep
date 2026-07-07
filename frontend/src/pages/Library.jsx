@@ -58,6 +58,7 @@ export default function Library() {
 const [selectedChip, setSelectedChip] =
   useState("");
 const [selectedResources,setSelectedResources]=useState("")
+const [sidebarOpen, setSidebarOpen] = useState(true);
 const toggleResource =
 (resource) => {
 
@@ -236,7 +237,7 @@ const savedQuery =
   return (
     <div className="app-shell">
 
-  <Sidebar />
+  <Sidebar  sidebarOpen={sidebarOpen} />
 
   <main className="app-main">
 

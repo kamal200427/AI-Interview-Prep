@@ -15,6 +15,7 @@ import Profile from "./pages/Profile.jsx";
 import MoodleTest from "./pages/MoodleTest.jsx";
 import ExamResult from "./pages/ExamResult.jsx";
 import ExamReview from "./pages/ReviewAnswers.jsx";
+import Notification from "./pages/Notification.jsx";
 
 export default function App() {
   return (
@@ -35,9 +36,10 @@ export default function App() {
       <Route path="/moodletest" element={<MoodleTest />} />
       <Route path="/exam-result" element={<ExamResult />} />
       <Route path="/review-exam" element={<ExamReview />} />
+      <Route path="/notifications" element={<Notification />} />
 
-{/* review-exam */}
-       <Route path="/chat" element={<ChatBoard />} />
+{/* /notifications */}
+        <Route path="/chat" element={<ChatBoard />} />
       <Route path="*" element={<Landing />} />
     </Routes>
   );

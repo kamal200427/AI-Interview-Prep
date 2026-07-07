@@ -4,7 +4,8 @@ import { GoogleLogin} from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { saveUser } from "../services/SignInApi";
 import { useState } from "react";
-import { sendOtpApi, verifyOtpApi } from "../services/OTPApi";
+import { sendOtpApi, verifyOtpApi,getUser } from "../services/OTPApi";
+import Logo from "../components/Logo";
 
 export default function SignIn() {
 const [email, setEmail] = useState("");
@@ -17,50 +18,91 @@ const [otpSent, setOtpSent] = useState(false);
     navigate("/onboarding");
   };
  const sendOTP = async () => {
-  try {
-    const res =
-      await sendOtpApi(email);
 
-    if (res.success) {
-      alert("OTP Sent");
-      setOtpSent(true);
+    if (!email.trim()) {
+
+        alert("Please enter your email.");
+
+        return;
     }
-  } catch (err) {
-    console.log(err);
-  }
-};
-const verifyOTP = async () => {
-  try {
-    const res =
-      await verifyOtpApi(
-        email,
-        otp
-      );
 
-    if (res.success) {
-      localStorage.setItem(
-        "isLoggedIn",
-        "true"
-      );
+    try {
 
-      navigate("/dashboard");
-    } else {
-      alert("Invalid OTP");
+        const res = await sendOtpApi(email);
+
+        if (res.success) {
+
+            alert(res.message);
+
+            setOtpSent(true);
+
+        } else {
+
+            alert(res.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
     }
-  } catch (err) {
-    console.log(err);
-  }
-};
 
+};
+ const verifyOTP = async () => {
+
+    try {
+
+        const res = await verifyOtpApi(
+            email,
+            otp
+        );
+
+        if (!res.success) {
+
+            alert(res.message);
+
+            return;
+
+        }
+
+        const userResponse = await getUser(email);
+
+        if (!userResponse.success) {
+
+            alert(userResponse.message);
+
+            return;
+
+        }
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(userResponse.user)
+        );
+
+        navigate("/dashboard");
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("OTP verification failed.");
+
+    }
+
+};
   return (
     <div className="auth">
       {/* LEFT */}
       <div className="auth-left">
-        <Link to="/" className="brand" style={{ marginBottom: 36 }}>
-          <span className="brand-mark">
-            <Zap size={17} />
-          </span>
-          LearnPro
+        <Link to="/" style={{ marginBottom: 60,marginTop:0}} >
+          <Logo/>
         </Link>
         <h1>
           Master the Future <br />
