@@ -14,6 +14,9 @@ from routers.roadmap import router as roadmap_router
 from routers.course_route import router as course_router
 from routers.exam_result import router as examresult_router
 from routers.notification_route import router as notification_router
+from routers.interview import router as interview_router
+from routers.resume_route import router as resume_router
+
 app=FastAPI()
 Base.metadata.create_all(bind=engine)
  
@@ -27,7 +30,9 @@ router_list=[question_router,
              roadmap_router,
              course_router,
              examresult_router,
-             notification_router]
+             notification_router,
+             interview_router,
+             resume_router]
 
 for router in router_list:
     app.include_router(router)

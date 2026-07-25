@@ -135,7 +135,7 @@ const [otpSent, setOtpSent] = useState(false);
       <div className="auth-right">
         <h2>Sign In</h2>
         <p className="muted" style={{ marginTop: 6 }}>
-          Welcome back to LearnPro.
+          Welcome back to SpeechX.
         </p>
  
            <div style={{ marginTop: 26 }}>

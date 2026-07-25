@@ -36,6 +36,8 @@ const [searchText, setSearchText] = useState("");
 
 
 const user = JSON.parse(localStorage.getItem("user"));
+console.log(user.email);
+
 const userID=user.email;
 const filteredSubjects = continueLearningData.filter(item =>
     item.name

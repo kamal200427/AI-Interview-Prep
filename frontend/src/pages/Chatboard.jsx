@@ -202,10 +202,11 @@ const stopListening = () => {
 
 };
   return (
+    
     <div className="chat-page">
 
       {/* Navbar */}
-       <Navbar/>
+       {/* <Navbar/> */}
 
       {/* Main */}
       <div className="chat-wrapper">

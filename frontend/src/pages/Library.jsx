@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import LibraryLoader from "../components/LibraryLoader";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import FloatingAIBot from "../components/FloatingAIBot.jsx";
@@ -444,13 +444,12 @@ const savedQuery =
 
             {/* LOADING */}
 
-            {loading && (
-              <div className="loading-area">
-                <div className="spinner" />
-                Searching Resources...
-              </div>
-            )}
+            {loading ? (
 
+    <LibraryLoader />
+
+) :(
+  <>
             {/* EMPTY STATE */}
 
             {!loading &&
@@ -529,6 +528,8 @@ const savedQuery =
       </div>
               </>
             )}
+            </>
+          )}
           </section>
         </div>
          <div className="page-navigation">

@@ -43,4 +43,4 @@ class UserDB(Base):
     location = Column(String, nullable=True)
 
     bio = Column(String, nullable=True)
-    
+

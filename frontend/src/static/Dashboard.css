@@ -2,24 +2,16 @@
    DASHBOARD LAYOUT
 ===========================================*/
 
-.app-sh{
-
-    display:flex;
-
-    min-height:100vh;
-
-    background:#f4f7fb;
-
+.app-shell {
+  /* display: grid; */
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
 }
 
-.app-m{
-
-    flex:1;
-
-    padding:30px;
-
-    overflow-y:auto;
-
+.app-main{
+  margin-left:260px;
+  padding:30px 36px;
+  min-height:100vh;
 }
 
 /* Main Container */

@@ -1,0 +1,2966 @@
+/* ===========================================================
+   AI Interview Platform
+   interview.css
+   Part 1
+=========================================================== */
+
+/* ---------- Variables ---------- */
+
+:root{
+    --primary:#2563eb;
+    --primary-light:#3b82f6;
+    --primary-dark:#1d4ed8;
+
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+
+    --bg:#f5f7fb;
+    --surface:#ffffff;
+
+    --text:#111827;
+    --text-light:#6b7280;
+
+    --border:#e5e7eb;
+
+    --shadow:
+        0 10px 30px rgba(15,23,42,.08);
+
+    --radius:18px;
+
+    --transition:.25s ease;
+}
+
+/* ---------- Global ---------- */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.interview-page{
+    min-height:100vh;
+    background:var(--bg);
+    padding:32px;
+}
+
+.interview-container{
+    max-width:1400px;
+    margin:auto;
+}
+
+.interview-grid{
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:28px;
+    margin-top:28px;
+}
+
+@media(max-width:1100px){
+
+.interview-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/* ---------- Card ---------- */
+
+.interview-card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:24px;
+}
+
+.interview-card + .interview-card{
+    margin-top:24px;
+}
+
+/* ---------- Typography ---------- */
+
+.section-title{
+    font-size:22px;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:18px;
+}
+
+.section-subtitle{
+    color:var(--text-light);
+    line-height:1.6;
+}
+
+/* ---------- Buttons ---------- */
+
+.start-interview-btn,
+.summary-btn,
+.voice-stop-btn{
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:15px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:var(--transition);
+
+}
+
+.start-interview-btn{
+
+width:100%;
+
+margin-top:25px;
+
+background:var(--primary);
+
+color:white;
+
+}
+
+.start-interview-btn:hover{
+
+background:var(--primary-dark);
+
+transform:translateY(-2px);
+
+}
+
+.summary-btn.primary{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+.summary-btn.secondary{
+
+background:var(--success);
+
+color:white;
+
+}
+
+.summary-btn.outline{
+
+background:white;
+
+border:1px solid var(--border);
+
+}
+
+.summary-btn:hover,
+.voice-stop-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+}
+
+/* ---------- Inputs ---------- */
+
+.setup-group{
+
+margin-bottom:22px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.setup-group label{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+font-weight:600;
+
+font-size:15px;
+
+color:var(--text);
+
+}
+
+.setup-group input,
+.setup-group select{
+
+width:100%;
+
+padding:13px 15px;
+
+font-size:15px;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+background:white;
+color:#0f172a;
+
+transition:.2s;
+
+outline:none;
+
+}
+
+.setup-group input:focus,
+.setup-group select:focus{
+
+border-color:var(--primary);
+
+box-shadow:0 0 0 3px rgba(37,99,235,.12);
+
+}
+
+/* ---------- Progress ---------- */
+
+.progress-bar{
+
+width:100%;
+
+height:10px;
+
+background:#edf2f7;
+
+border-radius:100px;
+
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+var(--primary),
+var(--primary-light)
+);
+
+border-radius:100px;
+
+transition:.5s;
+
+}
+
+.progress-top{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:8px;
+
+font-size:14px;
+
+font-weight:600;
+
+}
+
+/* ===========================================================
+    Interview Header
+=========================================================== */
+
+.interview-header{
+
+    background:#1e293b;
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:22px 28px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+/* LEFT */
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.header-logo{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+}
+
+.header-left h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+.header-left p{
+
+    margin-top:4px;
+
+    color:#94a3b8;
+
+}
+
+/* RIGHT */
+
+.header-right{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.header-chip{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 18px;
+
+    background:#0f172a;
+
+    border-radius:40px;
+
+    color:#cbd5e1;
+
+    border:1px solid rgba(255,255,255,.05);
+
+}
+
+/* BOTTOM */
+
+.header-bottom{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:10px;
+
+    color:#cbd5e1;
+
+    font-size:15px;
+
+}
+
+.header-bottom strong{
+
+    margin-left:8px;
+
+    color:white;
+
+}
+
+.header-progress{
+
+    width:100%;
+
+    height:8px;
+
+    background:#334155;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+}
+
+.header-progress-fill{
+
+    height:100%;
+
+    background:linear-gradient(90deg,#22c55e,#3b82f6);
+
+    border-radius:50px;
+
+    transition:.4s;
+
+}
+
+/* ===========================================================
+    Interview Setup
+=========================================================== */
+
+.interview-setup-card{
+
+max-width:760px;
+
+margin:40px auto;
+
+padding:35px;
+
+background:white;
+
+border-radius:24px;
+
+box-shadow:var(--shadow);
+
+border:1px solid var(--border);
+
+}
+
+.setup-header{
+
+text-align:center;
+
+margin-bottom:35px;
+
+}
+
+.setup-icon{
+
+width:90px;
+
+height:90px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:linear-gradient(
+135deg,
+var(--primary),
+var(--primary-light)
+);
+
+color:white;
+
+margin-bottom:18px;
+
+}
+
+.setup-header h2{
+
+font-size:32px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+color:var(--text);
+
+}
+
+.setup-header p{
+
+max-width:520px;
+
+margin:auto;
+
+line-height:1.7;
+
+color:var(--text-light);
+
+}
+
+.setup-summary{
+
+margin-top:28px;
+
+padding:22px;
+
+background:#f8fafc;
+
+border-radius:16px;
+
+border:1px solid var(--border);
+
+}
+
+.setup-summary h4{
+
+margin-bottom:18px;
+
+font-size:18px;
+
+color:var(--text);
+
+}
+
+.summary-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:16px;
+
+}
+
+.summary-grid div{
+
+padding:14px;
+
+background:white;
+
+border-radius:12px;
+
+border:1px solid var(--border);
+
+}
+
+.summary-grid span{
+
+display:block;
+
+font-size:13px;
+
+color:var(--text-light);
+color: #0f172a;
+
+margin-bottom:6px;
+
+}
+
+.summary-grid strong{
+
+font-size:15px;
+
+color:var(--text);
+color: #0f172a;
+
+font-weight:600;
+
+}
+/* ===========================================================
+   PART 2
+   AI Avatar
+   AI Question Card
+   Countdown Timer
+   Voice Recorder
+===========================================================*/
+
+
+/* ===========================================================
+   AI Avatar
+===========================================================*/
+/* ==========================================
+   AIAvatar.css
+   Part 4A
+   Root Variables
+   Layout
+   Glassmorphism
+   Responsive Container
+   Status Colors
+========================================== */
+
+/* ===============================
+   Root Variables
+=============================== */
+
+:root {
+  --avatar-size: 320px;
+
+  --avatar-radius: 26px;
+
+  --glass-bg:
+    rgba(255,255,255,0.08);
+
+  --glass-border:
+    rgba(255,255,255,0.18);
+
+  --shadow:
+    0 20px 60px rgba(0,0,0,.25);
+
+  --transition:
+    .35s ease;
+
+  --idle:
+    #60A5FA;
+
+  --speaking:
+    #3B82F6;
+
+  --listening:
+    #22C55E;
+
+  --thinking:
+    #FBBF24;
+
+  --text:
+    #F8FAFC;
+
+  --secondary:
+    #CBD5E1;
+}
+
+/* ===============================
+   Main Avatar Container
+=============================== */
+
+.ai-avatar{
+    position:relative;
+
+    width:var(--avatar-size);
+    height:var(--avatar-size);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    margin:auto;
+
+    border-radius:var(--avatar-radius);
+
+    background:var(--glass-bg);
+
+    border:1px solid var(--glass-border);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+    transition:all var(--transition);
+}
+
+/* ===============================
+   Avatar Wrapper
+=============================== */
+
+.avatar-wrapper{
+
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    z-index:2;
+}
+
+/* ===============================
+   SVG
+=============================== */
+
+.human-avatar{
+
+    width:88%;
+    height:88%;
+
+    display:block;
+
+    overflow:visible;
+
+    user-select:none;
+
+    pointer-events:none;
+}
+
+/* ===============================
+   Glass Highlight
+=============================== */
+
+.ai-avatar::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.18),
+            transparent 45%
+        );
+
+    pointer-events:none;
+
+    z-index:1;
+}
+
+/* ===============================
+   Hover Effect
+=============================== */
+
+.ai-avatar:hover{
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 26px 70px rgba(0,0,0,.32);
+}
+
+/* ===============================
+   Responsive Sizes
+=============================== */
+
+@media (max-width:992px){
+
+    .ai-avatar{
+
+        width:280px;
+        height:280px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .ai-avatar{
+
+        width:230px;
+        height:230px;
+
+        border-radius:20px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .ai-avatar{
+
+        width:190px;
+        height:190px;
+    }
+
+}
+
+/* ===============================
+   Status Colors
+=============================== */
+
+.ai-avatar.idle{
+
+    border-color:
+        rgba(96,165,250,.35);
+
+}
+
+.ai-avatar.speaking{
+
+    border-color:
+        var(--speaking);
+
+}
+
+.ai-avatar.listening{
+
+    border-color:
+        var(--listening);
+
+}
+
+.ai-avatar.thinking{
+
+    border-color:
+        var(--thinking);
+
+}
+
+/* ==========================================
+   End Part 4A
+
+   Next:
+   Part 4B
+
+   • SVG Styling
+   • Glow Effects
+   • Speaking Animation
+   • Listening Pulse
+   • Thinking Animation
+   • Idle Breathing
+========================================== */
+/* ==========================================
+   AIAvatar.css
+   Part 4B
+   SVG Styling
+   Glow Effects
+   Status Animations
+========================================== */
+
+/* ===============================
+   SVG Styling
+=============================== */
+
+.human-avatar {
+    position: relative;
+    z-index: 5;
+
+    width: 88%;
+    height: 88%;
+
+    overflow: visible;
+
+    transform-origin: center;
+    transition: transform .35s ease;
+}
+
+.human-avatar path,
+.human-avatar ellipse,
+.human-avatar circle,
+.human-avatar rect {
+    transition:
+        fill .25s ease,
+        stroke .25s ease,
+        transform .25s ease;
+}
+
+/* ===============================
+   Avatar Glow
+=============================== */
+
+.avatar-glow {
+    position: absolute;
+
+    inset: -18px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(96,165,250,.30) 0%,
+            rgba(96,165,250,.12) 45%,
+            transparent 72%
+        );
+
+    filter: blur(24px);
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+/* ===============================
+   Idle Animation
+=============================== */
+
+.ai-avatar.idle .human-avatar {
+    animation: avatarBreathing 3.5s ease-in-out infinite;
+}
+
+/* ===============================
+   Speaking Animation
+=============================== */
+
+.ai-avatar.speaking .avatar-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(59,130,246,.45),
+            rgba(59,130,246,.18),
+            transparent 72%
+        );
+
+    animation: speakingGlow .9s ease-in-out infinite;
+}
+
+.ai-avatar.speaking .human-avatar {
+    animation: speakingBounce .65s ease-in-out infinite;
+}
+
+/* ===============================
+   Listening Animation
+=============================== */
+
+.ai-avatar.listening .avatar-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(34,197,94,.42),
+            rgba(34,197,94,.16),
+            transparent 72%
+        );
+
+    animation: listeningPulse 1.3s ease-in-out infinite;
+}
+
+/* ===============================
+   Thinking Animation
+=============================== */
+
+.ai-avatar.thinking .avatar-glow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(251,191,36,.42),
+            rgba(251,191,36,.16),
+            transparent 72%
+        );
+
+    animation: thinkingGlow 1.6s ease-in-out infinite;
+}
+
+.ai-avatar.thinking .human-avatar {
+    animation: thinkingTilt 2.2s ease-in-out infinite;
+}
+
+/* ===============================
+   Keyframes
+=============================== */
+
+@keyframes avatarBreathing {
+    0%,100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-3px) scale(1.015);
+    }
+}
+
+@keyframes speakingBounce {
+    0%,100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-2px) scale(1.03);
+    }
+}
+
+@keyframes speakingGlow {
+    0%,100% {
+        transform: scale(1);
+        opacity: .55;
+    }
+    50% {
+        transform: scale(1.12);
+        opacity: .95;
+    }
+}
+
+@keyframes listeningPulse {
+    0%,100% {
+        transform: scale(1);
+        opacity: .55;
+    }
+    50% {
+        transform: scale(1.10);
+        opacity: .95;
+    }
+}
+
+@keyframes thinkingGlow {
+    0%,100% {
+        opacity: .45;
+        transform: scale(1);
+    }
+    50% {
+        opacity: .90;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes thinkingTilt {
+    0%,100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-1.5deg);
+    }
+    75% {
+        transform: rotate(1.5deg);
+    }
+}
+
+/* ==========================================
+   End Part 4B
+
+   Next:
+   Part 4C
+   • Voice Bars
+   • Sound Waves
+   • Status Label
+   • Mobile Tweaks
+   • Accessibility (prefers-reduced-motion)
+========================================== */
+/* ==========================================
+   AIAvatar.css
+   Part 4C
+   Voice Bars
+   Sound Waves
+   Status Label
+   Responsive Rules
+   Accessibility
+========================================== */
+
+/* ===============================
+   Voice Bars
+=============================== */
+
+.voice-bars {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+    height: 28px;
+    z-index: 20;
+}
+
+.voice-bar {
+    width: 5px;
+    height: 18px;
+
+    border-radius: 999px;
+
+    background: linear-gradient(
+        to top,
+        #3B82F6,
+        #60A5FA
+    );
+
+    transform-origin: bottom center;
+}
+
+/* ===============================
+   Status Label
+=============================== */
+
+.avatar-status {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 6px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(15,23,42,.72);
+    border: 1px solid rgba(255,255,255,.12);
+
+    color: var(--text);
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+
+    backdrop-filter: blur(10px);
+
+    z-index: 25;
+}
+
+.ai-avatar.speaking .avatar-status {
+    color: var(--speaking);
+}
+
+.ai-avatar.listening .avatar-status {
+    color: var(--listening);
+}
+
+.ai-avatar.thinking .avatar-status {
+    color: var(--thinking);
+}
+
+/* ===============================
+   SVG Sound Wave Styling
+=============================== */
+
+.sound-wave {
+    fill: none;
+    stroke: #60A5FA;
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: .75;
+    animation: waveExpand 1.5s linear infinite;
+}
+
+/* ===============================
+   Responsive Rules
+=============================== */
+
+@media (max-width: 768px) {
+
+    .avatar-status {
+        font-size: .72rem;
+        padding: 5px 12px;
+    }
+
+    .voice-bars {
+        gap: 4px;
+        bottom: 12px;
+    }
+
+    .voice-bar {
+        width: 4px;
+        height: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .avatar-status {
+        top: 10px;
+        padding: 4px 10px;
+    }
+
+    .voice-bars {
+        bottom: 10px;
+    }
+
+    .voice-bar {
+        width: 3px;
+        height: 12px;
+    }
+}
+
+/* ===============================
+   Additional Keyframes
+=============================== */
+
+@keyframes waveExpand {
+    0% {
+        opacity: .75;
+        transform: scale(.8);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(2.2);
+    }
+}
+
+@keyframes statusFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* ===============================
+   Accessibility
+=============================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+
+    .human-avatar,
+    .avatar-glow,
+    .voice-bar,
+    .sound-wave {
+        transform: none !important;
+    }
+}
+
+/* ==========================================
+   End of AIAvatar.css
+========================================== */
+
+
+/* ===========================================================
+   AI Question Card
+===========================================================*/
+
+.ai-question-card{
+    background:white;
+    border-radius:20px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:28px;
+}
+
+.question-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.question-header h3{
+    font-size:22px;
+    color:var(--text);
+}
+
+.question-header p{
+    margin-top:4px;
+    color:var(--text-light);
+}
+
+.difficulty-badge{
+    padding:8px 18px;
+    border-radius:50px;
+    background:#eff6ff;
+    color:var(--primary);
+    font-weight:600;
+}
+
+.category-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--primary);
+    margin:20px 0;
+    font-weight:600;
+}
+
+.question-box{
+    display:flex;
+    gap:16px;
+    background:#f8fafc;
+    padding:22px;
+    border-radius:18px;
+    border:1px solid var(--border);
+}
+
+.question-icon{
+    width:60px;
+    height:60px;
+    border-radius:14px;
+    background:rgba(37,99,235,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--primary);
+}
+
+.question-content{
+    flex:1;
+}
+
+.question-label{
+    color:var(--text-light);
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.question-text{
+    font-size:18px;
+    line-height:1.8;
+    color:var(--text);
+    font-weight:500;
+}
+
+.phase-card{
+    margin-top:25px;
+    padding:18px;
+    border:2px solid;
+    border-radius:16px;
+    background:#fafafa;
+}
+
+.phase-card h4{
+    margin-bottom:8px;
+}
+
+.phase-card p{
+    color:var(--text-light);
+}
+
+.countdown-section{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-top:25px;
+    padding:18px;
+    border-radius:16px;
+    background:#eff6ff;
+}
+
+.countdown-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--primary);
+}
+
+.countdown-title{
+    color:var(--text-light);
+}
+
+.countdown-number{
+    font-size:32px;
+    font-weight:700;
+    color:var(--primary);
+}
+
+
+
+/* ===========================================================
+   Countdown Timer
+===========================================================*/
+
+.countdown-container{
+    background:white;
+    border-radius:20px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:30px;
+}
+
+.countdown-container svg{
+    overflow:visible;
+}
+
+.countdown-container .timer-label{
+    font-size:18px;
+    font-weight:700;
+    color:var(--text);
+}
+
+.countdown-container .timer-number{
+    font-size:46px;
+    font-weight:700;
+}
+
+.countdown-container .timer-status{
+    font-weight:600;
+    color:var(--primary);
+}
+
+
+
+/* ===========================================================
+   Voice Recorder
+===========================================================*/
+.voice-recorder-card{
+
+background:#1e293b;
+
+border-radius:18px;
+
+padding:25px;
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:0 15px 35px rgba(0,0,0,.25);
+
+display:flex;
+
+flex-direction:column;
+
+gap:22px;
+
+}
+.voice-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+.voice-status{
+
+padding:8px 16px;
+
+border-radius:40px;
+
+background:#334155;
+
+display:flex;
+
+gap:8px;
+
+align-items:center;
+
+font-size:14px;
+
+font-weight:600;
+
+}
+
+.voice-status.active{
+
+background:#dc2626;
+
+color:white;
+
+animation:pulse 1.2s infinite;
+
+}
+.voice-body{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:20px;
+
+padding:20px 0;
+
+}
+.microphone-button{
+
+width:130px;
+
+height:130px;
+
+border-radius:50%;
+
+background:linear-gradient(
+
+135deg,
+
+#2563eb,
+
+#1d4ed8
+
+);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:white;
+
+box-shadow:
+
+0 0 40px rgba(37,99,235,.45);
+
+}
+.microphone-button.listening{
+
+background:linear-gradient(
+
+135deg,
+
+#ef4444,
+
+#dc2626
+
+);
+
+box-shadow:
+
+0 0 45px rgba(239,68,68,.6);
+
+}
+.voice-message{
+
+font-size:17px;
+
+font-weight:500;
+
+color:#cbd5e1;
+
+}
+.voice-wave{
+
+display:flex;
+
+align-items:flex-end;
+
+gap:6px;
+
+height:60px;
+
+}
+.voice-wave span{
+
+width:6px;
+
+background:#3b82f6;
+
+border-radius:10px;
+
+}
+.voice-preview{
+
+min-height:120px;
+
+padding:18px;
+
+border-radius:14px;
+
+background:#0f172a;
+
+border:1px solid rgba(255,255,255,.05);
+
+font-size:15px;
+
+line-height:1.8;
+
+color:#e2e8f0;
+
+overflow:auto;
+
+}
+.interim-preview{
+
+color:#60a5fa;
+
+font-style:italic;
+
+}
+.voice-controls{
+
+display:flex;
+
+justify-content:center;
+
+}
+.voice-stop-btn{
+
+padding:14px 26px;
+
+border:none;
+
+border-radius:12px;
+
+background:#dc2626;
+
+color:white;
+
+font-size:15px;
+
+font-weight:600;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.voice-stop-btn:hover{
+
+background:#b91c1c;
+
+transform:translateY(-2px);
+
+}
+
+.voice-stop-btn:disabled{
+
+opacity:.45;
+
+cursor:not-allowed;
+
+}
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.05);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+ 
+/* ===========================================================
+   Animation
+===========================================================*/
+
+@keyframes pulseMic{
+
+0%{
+
+transform:scale(1);
+
+box-shadow:
+0 0 0 0 rgba(239,68,68,.4);
+
+}
+
+70%{
+
+transform:scale(1.06);
+
+box-shadow:
+0 0 0 25px rgba(239,68,68,0);
+
+}
+
+100%{
+
+transform:scale(1);
+
+box-shadow:
+0 0 0 0 rgba(239,68,68,0);
+
+}
+
+}
+/* ===========================================================
+   PART 3
+   Live Transcript
+   Answer Analysis
+   Interview Loading
+   Interview Progress
+===========================================================*/
+
+
+/* ===========================================================
+   Live Transcript
+===========================================================*/
+
+.live-transcript-card{
+
+background:#1e293b;
+
+border-radius:18px;
+
+padding:24px;
+
+border:1px solid rgba(255,255,255,.08);
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+box-shadow:0 15px 35px rgba(0,0,0,.25);
+
+}
+
+.transcript-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding-bottom:10px;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.transcript-title{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-size:18px;
+
+font-weight:600;
+
+color:white;
+
+}
+
+.transcript-title h3{
+    font-size:22px;
+    color:var(--text);
+}
+
+.transcript-status{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+padding:8px 16px;
+
+border-radius:40px;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+.recording{
+
+background:#dc2626;
+
+color:white;
+
+animation:pulse 1.2s infinite;
+
+}
+
+.processing{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+.finished{
+
+background:#16a34a;
+
+color:white;
+
+}
+
+.recording-indicator{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-weight:600;
+
+color:#ef4444;
+
+}
+.transcript-body{
+
+height:260px;
+
+overflow-y:auto;
+
+line-height:1.9;
+
+font-size:16px;
+
+color:#e2e8f0;
+
+}
+
+.transcript-text{
+
+white-space:pre-wrap;
+
+word-break:break-word;
+
+}
+
+.interim-text{
+
+color:#60a5fa;
+
+font-style:italic;
+
+}
+.empty-transcript{
+
+height:100%;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+gap:18px;
+
+color:#94a3b8;
+
+text-align:center;
+
+}
+.transcript-footer{
+
+display:flex;
+
+justify-content:space-between;
+
+padding-top:15px;
+
+border-top:1px solid rgba(255,255,255,.08);
+
+font-size:14px;
+
+color:#94a3b8;
+
+}
+
+.transcript-footer strong{
+
+display:block;
+
+margin-top:5px;
+
+font-size:18px;
+
+color:white;
+
+}
+.transcript-footer div{
+    background:#eff6ff;
+    color:var(--primary);
+    padding:10px 16px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.spin{
+    animation:spin 1s linear infinite;
+}
+.record-dot{
+
+width:10px;
+
+height:10px;
+
+border-radius:50%;
+
+background:#ef4444;
+
+animation:pulseDot 1s infinite;
+
+}
+.transcript-container{
+
+background:#0f172a;
+
+border-radius:14px;
+
+padding:18px;
+
+border:1px solid rgba(255,255,255,.05);
+
+min-height:280px;
+
+}
+.transcript-body::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+.transcript-body::-webkit-scrollbar-thumb{
+
+background:#475569;
+
+border-radius:20px;
+
+}
+
+.transcript-body::-webkit-scrollbar-track{
+
+background:#0f172a;
+
+}
+.spin{
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.05);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+@keyframes pulseDot{
+
+0%{
+
+opacity:1;
+
+}
+
+50%{
+
+opacity:.4;
+
+}
+
+100%{
+
+opacity:1;
+
+}
+
+}
+
+/* ===========================================================
+   Answer Analysis
+===========================================================*/
+
+.answer-analysis-card{
+    background:rgba(255,255,255,.8);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.45);
+    box-shadow:var(--shadow);
+    padding:30px;
+}
+
+.analysis-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.analysis-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.analysis-title h2{
+    font-size:24px;
+}
+
+.overall-score{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:50px;
+    background:#eff6ff;
+    color:var(--primary);
+    font-weight:700;
+}
+
+.analysis-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.analysis-score-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:#f8fafc;
+    border-radius:18px;
+    border:1px solid var(--border);
+    padding:18px;
+}
+
+.analysis-score-icon{
+    width:58px;
+    height:58px;
+    border-radius:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.analysis-score-content{
+    display:flex;
+    flex-direction:column;
+}
+
+.analysis-score-content span{
+    color:var(--text-light);
+}
+
+.analysis-score-content strong{
+    margin-top:4px;
+    font-size:24px;
+}
+
+.analysis-feedback{
+    margin-bottom:30px;
+    background:#eff6ff;
+    border-radius:18px;
+    padding:22px;
+}
+
+.analysis-feedback p{
+    margin-top:12px;
+    line-height:1.8;
+}
+
+.analysis-section{
+    margin-top:26px;
+}
+
+.analysis-section ul{
+    list-style:none;
+    margin-top:14px;
+}
+
+.analysis-section li{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    line-height:1.7;
+}
+
+.section-title.success{
+    color:var(--success);
+}
+
+.section-title.warning{
+    color:var(--warning);
+}
+
+.next-question-banner{
+    margin-top:28px;
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        #7c3aed
+    );
+    color:white;
+    text-align:center;
+    border-radius:18px;
+    padding:18px;
+    font-size:17px;
+    font-weight:600;
+}
+
+
+
+/* ===========================================================
+   Interview Loading
+===========================================================*/
+
+.interview-loading{
+    min-height:70vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.interview-loading-card{
+    width:560px;
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(20px);
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.5);
+    box-shadow:var(--shadow);
+    padding:45px;
+    text-align:center;
+}
+
+.loading-avatar{
+    width:120px;
+    height:120px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        #7c3aed
+    );
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.loading-spinner{
+    margin-top:25px;
+    color:var(--primary);
+}
+
+.loading-title{
+    margin-top:25px;
+    font-size:28px;
+}
+
+.loading-description{
+    margin-top:14px;
+    color:var(--text-light);
+    line-height:1.8;
+}
+
+.loading-dots{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.loading-dots span{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--primary);
+}
+
+.loading-steps{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:28px;
+}
+
+.loading-step{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#f8fafc;
+    padding:12px 18px;
+    border-radius:14px;
+}
+
+
+
+/* ===========================================================
+   Interview Progress
+===========================================================*/
+
+.interview-progress-card{
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.45);
+    box-shadow:var(--shadow);
+    padding:26px;
+}
+
+.interview-progress-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.interview-progress-header h3{
+    font-size:22px;
+}
+
+.interview-progress-bar{
+    width:100%;
+    height:12px;
+    border-radius:100px;
+    background:#e5e7eb;
+    overflow:hidden;
+}
+
+.interview-progress-fill{
+    height:100%;
+    border-radius:100px;
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        #7c3aed
+    );
+}
+
+.interview-progress-stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    margin-top:28px;
+}
+
+.progress-stat{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#f8fafc;
+    border-radius:16px;
+    padding:18px;
+}
+
+.stat-label{
+    display:block;
+    color:var(--text-light);
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.phase-section{
+    margin-top:28px;
+}
+
+.phase-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:16px;
+}
+
+.phase-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.phase-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:50px;
+    background:#f3f4f6;
+    color:#6b7280;
+    font-weight:600;
+}
+
+.phase-item.active{
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        #7c3aed
+    );
+    color:white;
+}
+
+.interview-progress-footer{
+    margin-top:24px;
+    text-align:center;
+    background:#eff6ff;
+    color:var(--primary);
+    border-radius:14px;
+    padding:14px;
+    font-weight:600;
+}
+
+
+
+/* ===========================================================
+   Shared Animation
+===========================================================*/
+
+@keyframes spin{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+/* ===========================================================
+   PART 4
+   Interview Summary
+   Responsive
+   Dark Mode
+   Utilities
+   Scrollbar
+   Final Polish
+===========================================================*/
+
+
+/* ===========================================================
+   Interview Summary
+===========================================================*/
+
+.interview-summary-card{
+    max-width:1100px;
+    margin:40px auto;
+    background:#fff;
+    border-radius:24px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:40px;
+}
+
+.summary-header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.summary-trophy{
+    width:120px;
+    height:120px;
+    margin:auto;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #f97316
+    );
+    box-shadow:0 15px 40px rgba(245,158,11,.35);
+}
+
+.summary-header h2{
+    margin-top:25px;
+    font-size:34px;
+    color:var(--text);
+}
+
+.summary-header p{
+    margin-top:12px;
+    color:var(--text-light);
+}
+
+.overall-score-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:22px;
+    padding:14px 26px;
+    border-radius:50px;
+    font-size:20px;
+    font-weight:700;
+}
+
+.summary-metrics{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:35px;
+}
+
+.summary-metric-card{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:22px;
+    border-radius:18px;
+    background:#f8fafc;
+    border:1px solid var(--border);
+}
+
+.summary-metric-icon{
+    width:64px;
+    height:64px;
+    border-radius:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.summary-label{
+    font-size:14px;
+    color:var(--text-light);
+}
+
+.summary-value{
+    margin-top:5px;
+    font-size:28px;
+    font-weight:700;
+}
+
+.summary-info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    margin-bottom:35px;
+}
+
+.summary-info div{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 22px;
+    background:#eff6ff;
+    border-radius:16px;
+    color:var(--primary);
+    font-weight:600;
+}
+
+.summary-section{
+    margin-top:35px;
+}
+
+.summary-section h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    color:var(--text);
+}
+
+.summary-section ul{
+    list-style:none;
+}
+
+.summary-section li{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    line-height:1.8;
+}
+
+.question-score-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:15px;
+}
+
+.question-score-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px;
+    border-radius:14px;
+    background:#f8fafc;
+    border:1px solid var(--border);
+}
+
+.summary-recommendation{
+    margin-top:35px;
+    padding:25px;
+    border-radius:18px;
+    background:#eff6ff;
+}
+
+.summary-recommendation h3{
+    margin-bottom:12px;
+}
+
+.summary-recommendation p{
+    line-height:1.8;
+}
+
+.summary-actions{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+    margin-top:40px;
+}
+
+
+
+/* ===========================================================
+   Hover Effects
+===========================================================*/
+
+.interview-card:hover,
+.ai-avatar-card:hover,
+.ai-question-card:hover,
+.voice-recorder-card:hover,
+.live-transcript-card:hover,
+.answer-analysis-card:hover,
+.interview-progress-card:hover,
+.interview-summary-card:hover{
+    transform:translateY(-4px);
+    transition:.3s;
+    box-shadow:
+        0 20px 45px rgba(15,23,42,.12);
+}
+
+.interview-chip:hover,
+.progress-stat:hover,
+.summary-metric-card:hover,
+.question-score-item:hover{
+    transform:translateY(-3px);
+    transition:.25s;
+}
+
+button{
+    transition:.25s;
+}
+
+button:hover{
+    filter:brightness(.97);
+}
+
+
+
+/* ===========================================================
+   Utilities
+===========================================================*/
+
+.text-center{
+    text-align:center;
+}
+
+.mt-10{
+    margin-top:10px;
+}
+
+.mt-20{
+    margin-top:20px;
+}
+
+.mt-30{
+    margin-top:30px;
+}
+
+.mt-40{
+    margin-top:40px;
+}
+
+.mb-20{
+    margin-bottom:20px;
+}
+
+.hidden{
+    display:none;
+}
+
+.w-100{
+    width:100%;
+}
+
+.flex{
+    display:flex;
+}
+
+.flex-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.gap-10{
+    gap:10px;
+}
+
+.gap-20{
+    gap:20px;
+}
+
+
+
+/* ===========================================================
+   Scrollbar
+===========================================================*/
+
+::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#f1f5f9;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#94a3b8;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:var(--primary);
+}
+
+
+
+/* ===========================================================
+   Dark Mode
+===========================================================*/
+
+@media(prefers-color-scheme:dark){
+
+:root{
+
+--bg:#0f172a;
+--surface:#1e293b;
+--text:#f8fafc;
+--text-light:#cbd5e1;
+--border:#334155;
+
+}
+
+body{
+
+background:var(--bg);
+
+color:var(--text);
+
+}
+
+.interview-page{
+
+background:var(--bg);
+
+}
+
+.interview-card,
+.ai-avatar-card,
+.ai-question-card,
+.voice-recorder-card,
+.live-transcript-card,
+.answer-analysis-card,
+.interview-summary-card,
+.interview-progress-card,
+.interview-header,
+.interview-loading-card,
+.interview-setup-card{
+
+background:#1e293b;
+
+}
+
+.setup-summary,
+.voice-preview,
+.transcript-body,
+.question-box,
+.analysis-score-card,
+.progress-stat,
+.question-score-item{
+
+background:#0f172a;
+
+}
+
+.summary-info div,
+.analysis-feedback,
+.summary-recommendation{
+
+background:#172554;
+
+}
+
+}
+
+
+
+/* ===========================================================
+   Responsive
+===========================================================*/
+
+@media(max-width:1200px){
+
+.summary-metrics{
+
+grid-template-columns:1fr;
+
+}
+
+.analysis-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+
+
+@media(max-width:992px){
+
+.interview-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.summary-info{
+
+grid-template-columns:1fr;
+
+}
+
+.summary-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.interview-header-right{
+
+justify-content:center;
+
+}
+
+}
+
+
+
+@media(max-width:768px){
+
+.interview-page{
+
+padding:18px;
+
+}
+
+.interview-header{
+
+padding:20px;
+
+}
+
+.interview-title{
+
+font-size:24px;
+
+}
+
+.setup-header h2{
+
+font-size:28px;
+
+}
+
+.question-text{
+
+font-size:16px;
+
+}
+
+.avatar-circle{
+
+width:150px;
+height:150px;
+
+}
+
+.microphone-button{
+
+width:120px;
+height:120px;
+
+}
+
+.summary-header h2{
+
+font-size:28px;
+
+}
+
+.summary-actions{
+
+flex-direction:column;
+
+}
+
+.summary-btn{
+
+width:100%;
+
+}
+
+}
+
+
+
+@media(max-width:576px){
+
+.interview-header-left{
+
+flex-direction:column;
+text-align:center;
+
+}
+
+.question-box{
+
+flex-direction:column;
+align-items:center;
+text-align:center;
+
+}
+
+.analysis-header{
+
+flex-direction:column;
+gap:20px;
+
+}
+
+.transcript-header{
+
+flex-direction:column;
+gap:16px;
+
+}
+
+.voice-header{
+
+flex-direction:column;
+gap:16px;
+
+}
+
+.summary-metric-card{
+
+flex-direction:column;
+text-align:center;
+
+}
+
+.question-score-item{
+
+flex-direction:column;
+gap:10px;
+
+}
+
+.interview-chip{
+
+width:100%;
+justify-content:center;
+
+}
+
+}
+
+
+
+/* ===========================================================
+   Smooth Fade Animation
+===========================================================*/
+
+.fade-in{
+    animation:fadeIn .5s ease;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+
+/* ===========================================================
+   Glass Effect Utility
+===========================================================*/
+
+.glass{
+    background:rgba(255,255,255,.65);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.35);
+}
+
+
+
+/* ===========================================================
+   END OF FILE
+===========================================================*/

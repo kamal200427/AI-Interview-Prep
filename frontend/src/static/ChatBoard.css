@@ -276,7 +276,7 @@
 }
 
 .user-message{
-  background:#10b981;
+  background:#033f2b;
 
   max-width:650px;
 
@@ -285,7 +285,7 @@
   padding:18px 22px;
 
   border-radius:22px 22px 6px 22px;
-
+color: #f1f2f4;
   box-shadow:0 0 20px rgba(16,185,129,.25);
 }
 

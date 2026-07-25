@@ -6,7 +6,7 @@ class InterviewResult(Base):
 
     id = Column(Integer, primary_key=True)
 
-    user_id = Column(Integer)
+    user_id = Column(String)
 
     role = Column(String)
 
