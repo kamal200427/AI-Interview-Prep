@@ -8,14 +8,20 @@ from langchain_core.output_parsers import StrOutputParser
 
 router=APIRouter(prefix="/overview")
 
+
+retriver=genrel_retriver()
+prompt=genrel_prompt()
+parser=StrOutputParser()
+chain=prompt | model | parser 
+
 @router.post("/chatbot")
 def chatbot(question:Question):
     query=question.query
-    retriver=genrel_retriver()
-    prompt=genrel_prompt()
-    parser=StrOutputParser()
+    # retriver=genrel_retriver()
+    # prompt=genrel_prompt()
+    # parser=StrOutputParser()
     docs=retriver.invoke(query)
-    context= context = "\n\n".join(doc.page_content for doc in docs)
-    chain=prompt | model | parser 
+    context= "\n\n".join(doc.page_content for doc in docs)
+    # chain=prompt | model | parser 
     result=chain.invoke({"context":context,"question":query})
     return {"response":result}
